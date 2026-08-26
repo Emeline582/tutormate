@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/index.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.bootstrap5.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        .navbar { background-color: rgb(0, 0, 0); }
+        body { padding-top: 70px; } /* FIX: stops navbar covering your form */
+    </style>
+</head>
+<body>
+
+    <div>
+        <nav class="navbar navbar-expand-lg text-bg-primary fixed-top">
+            <!-- your nav code stays same -->
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">TutorMate</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                        {% if session.get('user_id') %}
+                            {% if session.get('role') == 'admin' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_dashboard') }}">admindashboard</a></li>
+                            {% endif %}
+                            {% if session.get('role') == 'tutor' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_dashboard') }}">tutordashboard</a></li>
+                            {% endif %}
+                            {% if session.get('role') == 'student' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('student_dashboard') }}">studentdashboard</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutors') }}">tutors</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('notifications') }}">Notifications</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('reviews') }}">reviews</a></li>
+                            {% if session.get('role') == 'tutor' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_bookings') }}">tutor_bookings</a></li>
+                            {% endif %}
+                            {% if session.get('role') == 'student' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('my_bookings') }}">my_bookings</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('register') }}">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <div style="margin-top: 100px; color: red;">
+        <p>FOOTER</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+      
+    </script>
+</body>
+</html>

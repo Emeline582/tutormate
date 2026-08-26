@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Tutors{% endblock %}
+
+{% block content %}
+<style>
+  .card{
+        border:none;
+        border-radius:12px;
+        transition:.3s;
+    }
+  .card:hover{
+        transform:translateY(-5px);
+    }
+  .card-title{
+        font-weight:bold;
+    }
+  .badge{
+        font-size:14px;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Find a Tutor</h2>
+
+    <!-- Search -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Search by subject">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option>All Subjects</option>
+                <option>Mathematics</option>
+                <option>English</option>
+                <option>Physics</option>
+                <option>Chemistry</option>
+                <option>Biology</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option>Availability</option>
+                <option>Available</option>
+                <option>Busy</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-secondary w-100">Search</button>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for tutor in tutors %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="https://ui-avatars.com/api/?name={{ tutor[8] }}+{{ tutor[9] }}&background=0D6EFD&color=fff&size=400"
+                     class="card-img-top"
+                     style="height:220px; object-fit:cover;">
+
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {% if tutor|length > 9 %}
+                            {{ tutor[8] }} {{ tutor[9] }}
+                        {% else %}
+                            Tutor #{{ tutor[0] }}
+                        {% endif %}
+                    </h5>
+
+                    <p class="text-muted">{{ tutor[2] }}</p>
+
+                    <p>
+                        <strong>Qualification:</strong><br>
+                        {{ tutor[3] }}
+                    </p>
+
+                    <p>
+                        <strong>Experience:</strong>
+                        {{ tutor[4] }} Years
+                    </p>
+
+                    <p>
+                        <strong>Rate:</strong>
+                        KSh {{ tutor[5] }}/hr
+                    </p>
+
+                    <p>{{ tutor[6] }}</p>
+
+                    <span class="badge bg-success">
+                        {{ tutor[7] }}
+                    </span>
+                </div>
+
+                <div class="card-footer bg-white">
+                    <a href="{{ url_for('view_tutor', tutor_id=tutor[0]) }}"
+                       class="btn btn-outline-secondary btn-sm">
+                        View Profile
+                    </a>
+
+                  
+                    <a href="{{ url_for('insert_reviews_r', tutor_id=tutor[0]) }}"
+                       class="btn btn-outline-warning btn-sm">
+                        ⭐ Review
+                    </a>
+
+                    <a href="{{ url_for('book_tutor', tutor_id=tutor[0]) }}"
+                       class="btn btn-secondary btn-sm float-end">
+                        Book Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-center">No tutors found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

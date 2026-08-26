@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %} Admin Dashboard {% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4 text-center">Admin Dashboard</h2>
+
+    <div class="row">
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <h5>Total Users</h5>
+                    <h2>{{ total_users or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5>Total Tutors</h5>
+                    <h2>{{ total_tutors or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-info shadow">
+                <div class="card-body">
+                    <h5>Total Students</h5>
+                    <h2>{{ total_students or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-warning shadow">
+                <div class="card-body">
+                    <h5>Total Bookings</h5>
+                    <h2>{{ total_bookings or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-danger shadow">
+                <div class="card-body">
+                    <h5>Pending Tutors</h5>
+                    <h2>{{ pending_tutors or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-secondary shadow">
+                <div class="card-body">
+                    <h5>Pending Payments</h5>
+                    <h2>{{ pending_payments or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-dark shadow">
+                <div class="card-body">
+                    <h5>Reviews</h5>
+                    <h2>{{ total_reviews or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <h5>Notifications</h5>
+                    <h2>{{ total_notifications or 0 }}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <h4 class="mb-3">Quick Actions</h4>
+
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+            <a href="{{ url_for('tutors') }}" class="btn btn-success w-100">
+                Manage Tutors
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="{{ url_for('payments') }}" class="btn btn-secondary w-100">
+                Payments
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="{{ url_for('reviews') }}" class="btn btn-dark w-100">
+                Reviews
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="{{ url_for('notifications') }}" class="btn btn-primary w-100">
+                Notifications
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="{{ url_for('profile') }}" class="btn btn-success w-100">
+                Profile
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

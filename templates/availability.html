@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+Tutor Availability
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Tutor Availability</h2>
+
+    <table class="table table-bordered table-striped table-hover">
+
+        <thead class="table-dark">
+            <tr>
+                <th>Availability ID</th>
+                <th>Tutor ID</th>
+                <th>Available Day</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for availability in availability %}
+
+            <tr>
+                <td>{{ availability[0] }}</td>
+                <td>{{ availability[1] }}</td>
+                <td>{{ availability[2] }}</td>
+                <td>{{ availability[3] }}</td>
+                <td>{{ availability[4] }}</td>
+                <td>{{ availability[5] }}</td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

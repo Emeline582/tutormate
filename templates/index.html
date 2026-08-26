@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} products {% endblock %}
+{% block content %}
+<style>
+.body{
+ 
+background-image: url("{{ url_for('static', filename='tutormate_image.jpg') }}");
+   background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    color: rgb(0, 0, 0);
+   font-size: 30px;
+   height: 500px;
+   text-align: center;
+    padding: 200px;
+
+
+}
+.home{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    padding-left: 100px;
+}
+.home h1{
+    font-size:50px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.home p{
+    font-size: 24px;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+.home .btn{
+    padding: 12px 30px;
+    font-size: 20px;
+    margin: 10px;
+}
+
+</style>
+<div id="home" class=" home">
+    
+    <h1>Welcome to TutorMate</h1>
+    <p >Find the Right Tutor. Learn with Confidence. <br>Connect with qualified tutors, book sessions online, and track your learning progress—all in one place.</p>
+
+     <a href="{{ url_for('register') }}" class="btn btn-warning">
+            Get Started
+        </a>
+
+        <a href="{{ url_for('tutors') }}" class="btn btn-outline-light">
+            Browse Tutors
+        </a>
+
+</div>
+
+{% endblock %}
+

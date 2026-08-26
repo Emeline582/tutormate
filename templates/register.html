@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<style>
+.body{ padding: 50px; }
+</style>
+
+<div class="body">
+    <p>Register here</p>
+
+    <div class="form">
+        <form action="/register" method="POST">
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" name="first_name" class="form-control" id="firstName" value="{{ request.form.first_name or '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" name="last_name" class="form-control" id="lastName" value="{{ request.form.last_name or '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control" id="email" value="{{ request.form.email or '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" id="phone" value="{{ request.form.phone or '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="role" class="form-label">Role</label>
+                <select name="role" class="form-control" id="role">
+                    <option value="student" {% if request.form.role == 'student' %}selected{% endif %}>Student</option>
+                    <option value="tutor" {% if request.form.role == 'tutor' %}selected{% endif %}>Tutor</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="password" required>
+            </div>
+           
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

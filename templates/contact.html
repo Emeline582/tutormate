@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<style>
+    body{
+        text-align: center;
+        background-color: grey;
+    }
+    
+    .info{
+        text-align: center;
+    }
+</style>
+<div class="container mt-5">
+
+    <div class="text-center mb-5">
+        <h1>Contact TutorMate</h1>
+        <p>
+            We'd love to hear from you. If you have any questions, suggestions,
+            or need assistance, feel free to contact us.
+        </p>
+    </div>
+
+    
+
+        <div class="info">
+
+            <h3>Contact Information</h3>
+           
+
+            <p><strong> Address</strong><br>Nairobi, Kenya</p>
+
+            <p><strong> Phone</strong><br>+254 70 123 4567</p>
+
+            <p><strong>Email</strong><br>tutormate@gmail.com</p>
+
+            <p><strong> Working Hours</strong><br> Monday - Friday<br>8:00 AM – 5:00 PM</p>
+
+        </div>
+
+       
+        <div class="">
+
+            <h3>Send Us a Message</h3>
+            
+
+            <form>
+
+                <div class="form">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control"
+                        placeholder="Enter your full name">
+                
+
+                
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control"
+                        placeholder="Enter your email">
+              
+                    <label class="form-label">Subject</label>
+                    <input type="text" class="form-control"
+                        placeholder="Subject">
+               
+
+                    <label class="form-label">Message</label>
+                    <textarea class="form-control"
+                        rows="5"
+                        placeholder="Write your message here..."></textarea>
+                </div>
+
+                <button class="btn btn-primary">
+                    Send Message
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

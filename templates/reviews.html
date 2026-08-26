@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Leave a Review</h2>
+<br>
+
+<form method="POST" action="/insert_reviews">
+
+  <label>Booking ID:</label><br>
+  <input type="number" name="booking_id" placeholder="Enter Booking ID e.g. 3" required>
+  <br><br>
+
+  <label>Tutor ID:</label><br>
+  <input type="number" name="tutor_id" placeholder="Enter Tutor ID e.g. 1" required
+         value="{{ selected_tutor_id if selected_tutor_id }}">
+  <br><br>
+
+  <label>Rating (1-5):</label><br>
+  <select name="rating" required>
+    <option value="">-- Select Rating --</option>
+    <option value="5">5</option>
+    <option value="4">4</option>
+    <option value="3">3</option>
+    <option value="2">2</option>
+    <option value="1">1</option>
+  </select>
+  <br><br>
+
+  <label>Comment:</label><br>
+  <textarea name="comment" rows="4" cols="40" placeholder="Write your review here e.g. good" required></textarea>
+  <br><br>
+
+  <input type="submit" value="Submit Review">
+
+</form>
+
+<p><small>Your bookings:
+{% for b in bookings %}
+  ID {{ b[0] }} (Tutor {{ b[1] }}) |
+{% endfor %}
+</small></p>
+
+{% endblock %}

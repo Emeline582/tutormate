@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<div>
+    <p>This is the login page</p>
+    <div>
+        <form action="/login" method="POST">
+            <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email address</label>
+                <input type="email" name="email" required class="form-control" id="loginEmail" value="{{ request.form.email or '' }}">
+            </div>
+            <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" name="password" required class="form-control" id="loginPassword">
+            </div>
+             <div class="mb-3">
+                <label for="loginRole" class="form-label">Role</label>
+                <select name="role" class="form-control" id="loginRole">
+                    <option value="student">Student</option>
+                    <option value="tutor">Tutor</option>
+                </select>
+            </div>
+           
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2>Book Tutor: {{ tutor[1] }} {{ tutor[2] }}</h2>
+  <form method="POST">
+    <label>Subject</label>
+    <input type="text" name="subject" class="form-control" required>
+
+    <label class="mt-2">Date</label>
+    <input type="date" name="date" class="form-control" required>
+
+    <label class="mt-2">Start Time</label>
+    <input type="time" name="start_time" class="form-control" required>
+
+    <label class="mt-2">End Time</label>
+    <input type="time" name="end_time" class="form-control" required>
+
+    <button type="submit" class="btn btn-primary mt-3">Book Now</button>
+  </form>
+</div>
+{% endblock %}

@@ -3,19 +3,34 @@
 {% block title %}Tutor Dashboard{% endblock %}
 
 {% block content %}
+<style>
+   body, html { background-color: #808080!important; }
+footer { background-color: #808080!important; }
+    .container{
+           background-color: #808080;
+           min-height: 100vh;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: relative;
+        margin-top: -8px; 
+        margin-bottom: -100px; 
+        padding: 80px 20px 100px 20px; 
+        color: black;
+    }
+</style>
 
-<div class="container mt-4">
+<div class="container ">
 
     <h2 class="text-center mb-4">
         Welcome, {{ session['name'] }}
     </h2>
 
-    <!-- Dashboard Cards -->
     <a href="{{ url_for('tutors_profile_r') }}" class="btn btn-warning mb-3">Create My Tutor Profile</a>
     <div class="row">
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white shadow">
+            <div class="card bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Total Bookings</h5>
                     <h2>{{ total_bookings }}</h2>
@@ -24,7 +39,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white shadow">
+            <div class="card bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Upcoming Lessons</h5>
                     <h2>{{ upcoming_bookings }}</h2>
@@ -33,7 +48,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-info text-white shadow">
+            <div class="card bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Completed Lessons</h5>
                     <h2>{{ completed_bookings }}</h2>
@@ -55,7 +70,7 @@
     <div class="row">
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-danger text-white shadow">
+            <div class="card bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Notifications</h5>
                     <h2>{{ unread_notifications }}</h2>
@@ -79,7 +94,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <a href="{{ url_for('bookings') }}"
+            <a href="{{ url_for('tutor_bookings') }}"
                class="btn btn-success w-100">
                 My Bookings
             </a>
@@ -101,96 +116,7 @@
 
     </div>
 
-    <hr>
-
-    <h4>Recent Bookings</h4>
-
-    <table class="table table-bordered table-hover">
-
-        <thead class="table-dark">
-
-        <tr>
-
-            <th>Booking ID</th>
-            <th>Student</th>
-            <th>Date</th>
-            <th>Status</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        {% for booking in bookings %}
-
-        <tr>
-
-            <td>{{ booking[0] }}</td>
-            <td>{{ booking[1] }}</td>
-            <td>{{ booking[2] }}</td>
-
-            <td>
-
-                {% if booking[3] == "Pending" %}
-                    <span class="badge bg-warning">Pending</span>
-
-                {% elif booking[3] == "Confirmed" %}
-                    <span class="badge bg-success">Confirmed</span>
-
-                {% elif booking[3] == "Completed" %}
-                    <span class="badge bg-primary">Completed</span>
-
-                {% elif booking[3] == "Cancelled" %}
-                    <span class="badge bg-danger">Cancelled</span>
-
-                {% endif %}
-
-            </td>
-
-        </tr>
-
-        {% endfor %}
-
-        </tbody>
-
-    </table>
-
-    <hr>
-
-    <h4>Recent Reviews</h4>
-
-    <table class="table table-bordered">
-
-        <thead class="table-dark">
-
-        <tr>
-
-            <th>Student</th>
-            <th>Rating</th>
-            <th>Review</th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-        {% for review in reviews %}
-
-        <tr>
-
-            <td>{{ review[0] }}</td>
-            <td>{{ review[1] }}</td>
-            <td>{{ review[2] }}</td>
-
-        </tr>
-
-        {% endfor %}
-
-        </tbody>
-
-    </table>
+    
 
 </div>
 

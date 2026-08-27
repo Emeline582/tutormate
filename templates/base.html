@@ -12,15 +12,32 @@
 
     <title>{% block title %}{% endblock %}</title>
     <style>
-        .navbar { background-color: rgb(0, 0, 0); }
-        body { padding-top: 70px; } /* FIX: stops navbar covering your form */
+        html {
+            background-image: url("{{ url_for('static', filename='tutormateimage4.avif') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100%;
+        }
+       
+        .nav-item{
+            color: black;
+        }
+
+        .navbar-dark .navbar-nav .nav-link,
+    .navbar-dark .navbar-brand,
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+        color: black !important;
+        font-weight: 600 !important;
+    }
     </style>
 </head>
 <body>
 
     <div>
-        <nav class="navbar navbar-expand-lg text-bg-primary fixed-top">
-            <!-- your nav code stays same -->
+       <nav class="navbar navbar-expand-lg navbar-dark fixed-top"  style="background-color: #FF6B00;" >
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">TutorMate</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
@@ -33,22 +50,24 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
                         {% if session.get('user_id') %}
                             {% if session.get('role') == 'admin' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_dashboard') }}">admindashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_dashboard') }}">adminDashboard</a></li>
                             {% endif %}
                             {% if session.get('role') == 'tutor' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_dashboard') }}">tutordashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_dashboard') }}">Dashboard</a></li>
                             {% endif %}
                             {% if session.get('role') == 'student' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('student_dashboard') }}">studentdashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('student_dashboard') }}">Dashboard</a></li>
                             {% endif %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutors') }}">tutors</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutors') }}">Tutors</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('notifications') }}">Notifications</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('reviews') }}">reviews</a></li>
+                            {% if session.get('role') == 'student' %}
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('reviews') }}">Reviews</a></li>
+                            {% endif %}
                             {% if session.get('role') == 'tutor' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_bookings') }}">tutor_bookings</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_bookings') }}">Bookings</a></li>
                             {% endif %}
                             {% if session.get('role') == 'student' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('my_bookings') }}">my_bookings</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('my_bookings') }}">Bookings</a></li>
                             {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
@@ -77,10 +96,12 @@
 
     {% block content %}{% endblock %}
 
-    <div style="margin-top: 100px; color: red;">
-        <p>FOOTER</p>
-    </div>
-
+    
+<div style="width: 100%; text-align: center; display: flex;  justify-content: center; align-items: center; margin-top: 100px; color: black;"></div>>
+    <footer style="background: transparent; text-align:center; padding:20px; color:black; font-weight:600; ">
+    &copy; 2026 Kenya Tutormate. All Rights Reserved.
+</footer>
+</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         

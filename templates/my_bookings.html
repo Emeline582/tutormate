@@ -5,17 +5,54 @@
 {% endblock %}
 
 {% block content %}
+<style>
+body, html { background-color: #808080!important; }
+ footer { background-color: #808080!important; color: black!important; }
 
-<div>
+.container{
+        background-color: #808080;
+        min-height: 100vh;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: relative;
+        margin-top: -24px;
+        margin-bottom: -100px;
+        padding: 80px 20px 100px 20px;
+       
+        color: black;
+    }
+.container h2{ color: black; font-weight: 800; }
+
+ 
+.table {
+        background-color: #FFDAB3!;
+        color: black;
+        --bs-table-bg: #FFDAB3;
+        --bs-table-striped-bg: #FFDAB3;
+        align-items: center;
+}
+
+.table table-bordered th,.table-bordered td {
+        border-color: black;
+}
+
+.table-dark th {
+        background-color: #000000;
+        color: white;
+}
+</style>
+
+<div class="container">
     <h2>My Bookings</h2>
-    <a href="/student_dashboard">Back to Dashboard</a>
-    <br><br>
+    
+    <br>
 
     {% if bookings|length == 0 %}
         <p>No bookings found.</p>
     {% else %}
-        <table>
-    <tr>
+        <table class="table table-bordered">
+    <tr class="table-dark table-bordered">
         <th>Booking ID</th>
         <th>Tutor ID</th>
         <th>Date</th>
@@ -24,7 +61,7 @@
         <th>Status</th>
     </tr>
     {% for b in bookings %}
-    <tr>
+    <tr class="table-bordered">
         <td>{{ b[0] }}</td> 
         <td>{{ b[1] }}</td> 
         <td>{{ b[2] }}</td> 

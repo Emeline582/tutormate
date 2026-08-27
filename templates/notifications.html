@@ -5,7 +5,45 @@ Notifications
 {% endblock %}
 
 {% block content %}
+<style>
+ body, html { background-color: #808080!important; }
+ footer { background-color: #808080!important; color: black!important; }
 
+.notifications{
+        background-color: #808080;
+        min-height: 100vh;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: relative;
+        margin-top: -24px;
+        margin-bottom: -100px;
+        padding: 80px 20px 100px 20px;
+        color: black;
+    }
+.notifications h2{ color: black; font-weight: 800; }
+
+ 
+.table {
+        background-color: #FFDAB3!;
+        color: black;
+        --bs-table-bg: #FFDAB3;
+        --bs-table-striped-bg: #FFDAB3;
+}
+
+.table-bordered th,.table-bordered td {
+        border-color: black;
+}
+
+.table-dark th {
+        background-color: #000000;
+        color: white;
+}
+</style>
+
+<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #808080; z-index: -10;"></div>
+
+<div class="notifications">
 <div class="container mt-4">
 
     <h2 class="text-center mb-4">Notifications</h2>
@@ -25,9 +63,7 @@ Notifications
         </thead>
 
         <tbody>
-
         {% for notification in notifications %}
-
         <tr>
             <td>{{ notification[0] }}</td>
             <td>{{ notification[1] }}</td>
@@ -37,13 +73,12 @@ Notifications
             <td>{{ notification[5] }}</td>
             <td>{{ notification[6] }}</td>
         </tr>
-
         {% endfor %}
-
         </tbody>
 
     </table>
 
+</div>
 </div>
 
 {% endblock %}

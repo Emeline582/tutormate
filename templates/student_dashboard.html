@@ -3,6 +3,22 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
+<style>
+   body, html { background-color: #808080!important; }
+footer { background-color: #808080!important; }
+    .container{
+           background-color: #808080;
+           min-height: 100vh;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: relative;
+        margin-top: -8px; 
+        margin-bottom: -100px; 
+        padding: 80px 20px 100px 20px; 
+        color: black;
+    }
+</style>
 
 <div class="container mt-4">
 
@@ -14,7 +30,7 @@
     <div class="row">
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white shadow">
+            <div class="card bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Total Bookings</h5>
                     <h2>{{ total_bookings }}</h2>
@@ -23,7 +39,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white shadow">
+            <div class="card bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Upcoming Lessons</h5>
                     <h2>{{ upcoming_bookings }}</h2>
@@ -32,7 +48,7 @@
         </div>
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-info text-white shadow">
+            <div class="card  bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Completed Lessons</h5>
                     <h2>{{ completed_bookings }}</h2>
@@ -54,7 +70,7 @@
     <div class="row">
 
         <div class="col-md-3 mb-3">
-            <div class="card bg-danger text-white shadow">
+            <div class="card bg-warning shadow">
                 <div class="card-body text-center">
                     <h5>Notifications</h5>
                     <h2>{{ unread_notifications }}</h2>
@@ -97,96 +113,8 @@
 
     </div>
 
-    <hr>
-
-    <h4 class="mb-3">Recent Bookings</h4>
-
-    <table class="table table-bordered table-hover">
-
-        <thead class="table-dark">
-
-            <tr>
-                <th>Booking ID</th>
-                <th>Tutor</th>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Status</th>
-            </tr>
-
-        </thead>
-
-        <tbody>
-
-        {% for booking in bookings %}
-
-            <tr>
-
-                <td>{{ booking.booking_id }}</td>
-                <td>{{ booking.tutor_name }}</td>
-                <td>{{ booking.subject }}</td>
-                <td>{{ booking.booking_date }}</td>
-
-                <td>
-
-                    {% if booking.booking_status == "Pending" %}
-
-                        <span class="badge bg-warning">
-                            Pending
-                        </span>
-
-                    {% elif booking.booking_status == "Confirmed" %}
-
-                        <span class="badge bg-success">
-                            Confirmed
-                        </span>
-
-                    {% elif booking.booking_status == "Completed" %}
-
-                        <span class="badge bg-primary">
-                            Completed
-                        </span>
-
-                    {% elif booking.booking_status == "Cancelled" %}
-
-                        <span class="badge bg-danger">
-                            Cancelled
-                        </span>
-
-                    {% endif %}
-
-                </td>
-
-            </tr>
-
-        {% endfor %}
-
-        </tbody>
-
-    </table>
-
-    <hr>
-
-    <h4 class="mb-3">Recent Notifications</h4>
-
-    <ul class="list-group">
-
-        {% for notification in notifications %}
-
-            <li class="list-group-item">
-
-                {{ notification.message }}
-
-                <small class="text-muted float-end">
-
-                    {{ notification.created_at }}
-
-                </small>
-
-            </li>
-
-        {% endfor %}
-
-    </ul>
+    
+   
 
 </div>
 

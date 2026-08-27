@@ -4,27 +4,50 @@
 
 {% block content %}
 <style>
-  .card{
+    body, html { background-color: #808080!important; }
+footer { background-color: #808080!important; }
+ .body{
+        background-color: #808080;
+        min-height: 100vh;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: relative;
+        margin-top: -24px;
+        margin-bottom: -100px;
+        padding: 80px 20px 100px 20px;
+        color: black;
+    }
+ .body h2{
+        color: black;
+        font-weight: 800;
+    }
+ .card{
         border:none;
         border-radius:12px;
-        transition:.3s;
+        background-color: #FFDAB3;
+        color: black;
     }
-  .card:hover{
-        transform:translateY(-5px);
-    }
-  .card-title{
+ 
+ .card-title{
         font-weight:bold;
+        color: black;
     }
-  .badge{
-        font-size:14px;
+ .card p,.card strong{
+        color: black;
+    }
+ 
+ .card-footer{
+        background-color: #FF6B00!important;
+        border-top: 1px solid black;
     }
 </style>
 
+<div class="body">
 <div class="container mt-4">
 
     <h2 class="text-center mb-4">Find a Tutor</h2>
 
-    <!-- Search -->
     <div class="row mb-4">
         <div class="col-md-4">
             <input type="text" class="form-control" placeholder="Search by subject">
@@ -47,7 +70,7 @@
             </select>
         </div>
         <div class="col-md-2">
-            <button class="btn btn-secondary w-100">Search</button>
+            <button class="btn btn-dark w-100">Search</button>
         </div>
     </div>
 
@@ -55,7 +78,7 @@
         {% for tutor in tutors %}
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
-                <img src="https://ui-avatars.com/api/?name={{ tutor[8] }}+{{ tutor[9] }}&background=0D6EFD&color=fff&size=400"
+                <img src="https://ui-avatars.com/api/?name={{ tutor[8] }}+{{ tutor[9] }}&background=000000&color=fff&size=400"
                      class="card-img-top"
                      style="height:220px; object-fit:cover;">
 
@@ -68,7 +91,7 @@
                         {% endif %}
                     </h5>
 
-                    <p class="text-muted">{{ tutor[2] }}</p>
+                    <p class="text-dark">{{ tutor[2] }}</p>
 
                     <p>
                         <strong>Qualification:</strong><br>
@@ -87,33 +110,33 @@
 
                     <p>{{ tutor[6] }}</p>
 
-                    <span class="badge bg-success">
+                    <span class="badge bg-dark">
                         {{ tutor[7] }}
                     </span>
                 </div>
 
-                <div class="card-footer bg-white">
-                    <a href="{{ url_for('view_tutor', tutor_id=tutor[0]) }}"
-                       class="btn btn-outline-secondary btn-sm">
-                        View Profile
+                <div class="card-footer">
+                 <a href="{{ url_for('view_tutor', tutor_id=tutor[0]) }}"
+                      class="btn btn-dark btn-sm">
+                       View Profile
                     </a>
 
-                  
                     <a href="{{ url_for('insert_reviews_r', tutor_id=tutor[0]) }}"
-                       class="btn btn-outline-warning btn-sm">
+                       class="btn btn-outline-dark btn-sm">
                         ⭐ Review
                     </a>
 
                     <a href="{{ url_for('book_tutor', tutor_id=tutor[0]) }}"
-                       class="btn btn-secondary btn-sm float-end">
+                       class="btn btn-dark btn-sm float-end">
                         Book Now
                     </a>
                 </div>
             </div>
         </div>
         {% else %}
-        <p class="text-center">No tutors found.</p>
+        <p class="text-center" style="color:black;">No tutors found.</p>
         {% endfor %}
     </div>
+</div>
 </div>
 {% endblock %}

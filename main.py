@@ -1,5 +1,5 @@
 from flask import Flask, render_template,request,redirect,url_for,flash,session
-from database import insert_user, get_user, update_user, delete_user, check_user_exists, insert_tutor, get_tutors, get_tutor, update_tutor, delete_tutor,  get_tutor_availability, insert_student, get_student, update_student, delete_student, insert_booking, get_booking, update_booking,  cancel_booking, confirm_booking, complete_booking, get_student_bookings, get_tutor_bookings, insert_payment, get_payments, confirm_payments, get_pending_payments,update_payment ,insert_review, get_review, update_review, delete_review, get_tutor_reviews, insert_availability, get_availability, update_availability, delete_availability,get_available_slots, get_available_tutors, mark_slot_booked, mark_slot_available, insert_notification, get_notification, update_notification, delete_notification, get_user_notifications, mark_as_read, mark_as_unread, count_notifications, send_booking_notification,count_bookings,count_pending_payments,count_students,count_tutors,count_users,count_upcoming_bookings,count_completed_bookings,count_student_pending_payments,count_tutor_bookings,count_tutor_upcoming_bookings,get_tutor_by_user_id,get_student_by_user_id,get_user_by_id,decline_booking,insert_notification_for_student,mark_booking_paid,mark_booking_unpaid,get_student_user_id_from_booking,add_payment_notification,get_all_bookings
+from database import insert_user, get_user, update_user, delete_user, check_user_exists, insert_tutor, get_tutors, get_tutor, update_tutor, delete_tutor,  get_tutor_availability, insert_student, get_student, update_student, delete_student, insert_booking, get_booking, update_booking,  cancel_booking, confirm_booking, complete_booking, get_student_bookings, get_tutor_bookings, insert_payment, get_payments, confirm_payments, get_pending_payments,update_payment ,insert_review, get_review, update_review, delete_review, get_tutor_reviews, insert_availability, get_availability, update_availability, delete_availability,get_available_slots, get_available_tutors, mark_slot_booked, mark_slot_available, insert_notification, get_notification, update_notification, delete_notification, get_user_notifications, mark_as_read, mark_as_unread, count_notifications, send_booking_notification,count_bookings,count_pending_payments,count_students,count_tutors,count_users,count_upcoming_bookings,count_completed_bookings,count_student_pending_payments,count_tutor_bookings,count_tutor_upcoming_bookings,get_tutor_by_user_id,get_student_by_user_id,get_user_by_id,decline_booking,insert_notification_for_student,mark_booking_paid,mark_booking_unpaid,get_student_user_id_from_booking,add_payment_notification,get_all_bookings,update_booking_meet_link,get_all_payments,get_my_bookings,get_notifications_for_user,insert_notification_for_tutor,get_tutor_user_id
 from datetime import date, datetime
 
 
@@ -16,7 +16,7 @@ bcrypt = Bcrypt(app)
 @app.route('/')
 def home():
     
-    return  render_template('home.html')
+    return  render_template('index.html')
 
 @app.route('/about')
 def about():
@@ -100,6 +100,7 @@ def login():
 
         if bcrypt.check_password_hash(registered_user[5], password):
             session['user_id'] = registered_user[0]
+            session['name'] = f"{registered_user[1]} {registered_user[2]}"
             session['email'] = registered_user[3]
             session['role'] = registered_user[6]
 
@@ -255,7 +256,7 @@ def view_tutor(tutor_id):
 
 @app.route("/payments")
 def payments():
-    payments_data = get_payments()
+    payments_data = get_all_payments()
     return render_template("payments.html",payments_data = payments_data)
 
 @app.route("/add_tutor", methods=["GET","POST"])
@@ -301,10 +302,11 @@ def delete_tutor_route(id):
 
 
 
+
 @app.route('/book/<int:tutor_id>', methods=['GET', 'POST'])
 @login_required
 def book_tutor(tutor_id):
-    tutor = get_tutor(tutor_id) 
+    tutor = get_tutor(tutor_id)
 
     if request.method == 'POST':
         student_id = session.get('student_id')
@@ -313,21 +315,39 @@ def book_tutor(tutor_id):
         start = request.form['start_time']
         end = request.form['end_time']
 
-        
         insert_booking(student_id, tutor_id, subject, date, start, end, 'Pending')
-        
+
+        tutor_user_id = get_tutor_user_id(tutor_id)
+        student_name = session.get('name', 'A student')
+
+        insert_notification_for_tutor(
+            tutor_user_id,
+            "New Booking Request",
+            f"You have a new booking for {subject} on {date} from {student_name}",
+            "booking",
+            False
+        )
+
         flash("Booking successful!", "success")
         return redirect(url_for('my_bookings'))
 
     return render_template('book_tutor.html', tutor=tutor, tutor_id=tutor_id)
+
 @app.route('/confirm_booking/<int:booking_id>', methods=['GET', 'POST'])
 @login_required
 def confirm_booking_r(booking_id):
-    confirm_booking(booking_id)
-    booking = get_booking(booking_id)
-    student_id = booking[1] 
-    insert_notification_for_student(student_id, "Booking Confirmed", "Your tutoring booking has been confirmed.", "booking", False)
-    flash("Booking confirmed successfully.", "success")
+    if request.method == 'POST':
+        meet_link = request.form.get('meet_link') # tutor entered link
+
+        confirm_booking(booking_id)
+        update_booking_meet_link(booking_id, meet_link)
+
+        booking = get_booking(booking_id)
+        student_id = booking[1]
+        insert_notification_for_student(student_id, "Booking Confirmed", f"Your booking is confirmed. Link: {meet_link}", "booking", False)
+        flash("Booking confirmed successfully.", "success")
+        
+
     return redirect(url_for('tutor_bookings'))
 
 
@@ -528,9 +548,15 @@ def reviews():
 
 
    
-@app.route('/insert_reviews', methods=['GET', 'POST'])
+
+@app.route('/insert_reviews/<int:tutor_id>', methods=['GET', 'POST'])
 @login_required
-def insert_reviews_r():
+def insert_reviews_r(tutor_id=None):
+
+    user_id = session.get('user_id') 
+    if get_tutor_by_user_id(user_id):
+        flash("Tutors cannot leave reviews.", "danger")
+        return redirect(url_for('tutor_dashboard'))
 
     selected_tutor_id = request.args.get('tutor_id')
     bookings = get_all_bookings()
@@ -538,19 +564,21 @@ def insert_reviews_r():
     if request.method == 'POST':
         booking_id = request.form.get('booking_id')
         tutor_id = request.form.get('tutor_id')
-        user_id = session.get('user_id')
         rating = request.form.get('rating')
         comment = request.form.get('comment')
 
         student_data = get_student_by_user_id(user_id)
+
+        if not student_data:
+            flash("Only students can leave reviews.", "danger")
+            return redirect(url_for('tutor_dashboard'))
+
         student_id = student_data[0]
 
         student = get_user_by_id(user_id)
         student_name = student[1]
 
         insert_review(booking_id, tutor_id, student_id, rating, comment)
-
-        # with title
         insert_notification(tutor_id, "New Review", f"you have a new review from {student_name}.", "review", False)
 
         flash("Review submitted successfully", "success")
@@ -608,14 +636,13 @@ def update_availability_r(availability_id):
 
     return render_template('edit_availability.html',availability=availability)
 
+
 @app.route('/notifications')
 @login_required
 def notifications():
-
-    notifications = get_notification()
-
-    return render_template('notifications.html',notifications=notifications)
-
+    user_id = session.get('user_id')  
+    notifications = get_notifications_for_user(user_id)
+    return render_template('notifications.html', notifications=notifications)
 @app.route('/insert_notification', methods=['GET', 'POST'])
 @login_required
 def add_notification():
@@ -654,5 +681,6 @@ def edit_notification(notification_id):
 
     return render_template('update_notification.html',notification=notification)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)

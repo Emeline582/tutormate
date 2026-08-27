@@ -1,60 +1,56 @@
 {% extends 'base.html' %}
-{% block title %} products {% endblock %}
+{% block title %} Home {% endblock %}
 {% block content %}
+
 <style>
-.body{
- 
-background-image: url("{{ url_for('static', filename='tutormate_image.jpg') }}");
-   background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-    color: rgb(0, 0, 0);
-   font-size: 30px;
-   height: 500px;
-   text-align: center;
-    padding: 200px;
-
-
+html, body {
+    height: 100%;
+    
 }
-.home{
-    display: block;
+
+body {
+    background-image: url("{{ url_for('static', filename='tutormate_image.jpg') }}")!important;
+    background-size: cover!important;
+    background-position: center!important;
+    background-repeat: no-repeat!important;
+    background-attachment: fixed!important;
+    background-color: transparent!important;
+}
+
+.text {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-left: 100px;
-}
-.home h1{
-    font-size:50px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    text-align: center;
+    padding-top: 40px;
 }
 
-.home p{
-    font-size: 24px;
-    line-height: 1.8;
-    margin-bottom: 35px;
-}
-.home .btn{
-    padding: 12px 30px;
-    font-size: 20px;
-    margin: 10px;
+.text h1 {
+    color: white !important;
+    text-shadow: 2px 2px 8px black;
 }
 
+.text p {
+    color: white !important;
+    text-shadow: 1px 1px 6px black;
+    padding-top: 20px;
+}
 </style>
-<div id="home" class=" home">
+
+
+  <div class="text">
+    <h1 style="font-size: 70px; font-weight: 900; color: black; ">Welcome to TutorMate</h1>
+    <p style="font-size: 25px; color: black; font-weight: 600; ">Find the Right Tutor. Learn with Confidence.</p>
+    <p style="font-size: 20px; color: black; ">Connect with qualified tutors, book sessions online, and improve.</p>
     
-    <h1>Welcome to TutorMate</h1>
-    <p >Find the Right Tutor. Learn with Confidence. <br>Connect with qualified tutors, book sessions online, and track your learning progress—all in one place.</p>
+    <div style="margin-top: 30px;">
+        <a href="#" class="btn" style="background-color: #6c757d; color: black; font-weight: bold; padding: 12px 30px; margin: 10px;">Get started</a>
+        <a href="{{ url_for('tutors') }}" class="btn" style="background-color: #6c757d; color: black; font-weight: bold; padding: 12px 30px; margin: 10px;">Browse Tutors</a>
+    </div>
+    
+  </div>
 
-     <a href="{{ url_for('register') }}" class="btn btn-warning">
-            Get Started
-        </a>
-
-        <a href="{{ url_for('tutors') }}" class="btn btn-outline-light">
-            Browse Tutors
-        </a>
-
-</div>
 
 {% endblock %}
-

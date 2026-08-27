@@ -1,28 +1,58 @@
 {% extends 'base.html' %}
 {% block title %} Login {% endblock %}
 {% block content %}
-<div>
-    <p>This is the login page</p>
-    <div>
-        <form action="/login" method="POST">
-            <div class="mb-3">
-                <label for="loginEmail" class="form-label">Email address</label>
-                <input type="email" name="email" required class="form-control" id="loginEmail" value="{{ request.form.email or '' }}">
-            </div>
-            <div class="mb-3">
-                <label for="loginPassword" class="form-label">Password</label>
-                <input type="password" name="password" required class="form-control" id="loginPassword">
-            </div>
-             <div class="mb-3">
-                <label for="loginRole" class="form-label">Role</label>
-                <select name="role" class="form-control" id="loginRole">
-                    <option value="student">Student</option>
-                    <option value="tutor">Tutor</option>
-                </select>
-            </div>
-           
-            <button type="submit" class="btn btn-primary">Sign In</button>
-        </form>
-    </div>
+
+<style>
+  
+  body {
+    background: #808080 ;
+    background-color: #808080;
+    background-image: none ;
+  }
+  .container {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logincard {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin-top: 20px;
+  }
+  footer {
+    background: #808080 !important;
+    color: white !important;
+    text-shadow: none !important;
+  }
+</style>
+
+<div class="container">
+  <div class="logincard">
+    <h3 class="text-center mb-4" style="font-weight:700;">Login to TutorMate</h3>
+    <form action="/login" method="POST">
+        <div class="mb-3">
+            <label for="loginEmail" class="form-label">Email address</label>
+            <input type="email" name="email" required class="form-control" id="loginEmail" value="{{ request.form.email or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="loginPassword" class="form-label">Password</label>
+            <input type="password" name="password" required class="form-control" id="loginPassword">
+        </div>
+        <div class="mb-3">
+            <label for="loginRole" class="form-label">Role</label>
+            <select name="role" class="form-control" id="loginRole">
+                <option value="student">Student</option>
+                <option value="tutor">Tutor</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" style="background-color:#FF6B00; border:none; font-weight:bold;">Sign In</button>
+    </form>
+  </div>
 </div>
+
 {% endblock %}

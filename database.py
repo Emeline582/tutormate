@@ -229,6 +229,10 @@ def confirm_booking(booking_id):
     cur.execute("UPDATE bookings SET booking_status='Confirmed', notes='Confirmed' WHERE booking_id=%s ", (booking_id,))
     conn.commit()
 
+def update_booking_meet_link(booking_id, meet_link):
+    cur.execute("UPDATE bookings SET meet_link=%s, booking_status='Confirmed' WHERE booking_id=%s", (meet_link, booking_id))
+    conn.commit()
+
 def decline_booking(booking_id):
     cur.execute("UPDATE bookings SET booking_status='Declined', notes='Declined' WHERE booking_id=%s", (booking_id,))
     conn.commit()
@@ -292,7 +296,9 @@ def get_payments(payment_id):
     cur.execute("select * from payments WHERE payment_id=%s", (payment_id,))
     payments_data = cur.fetchone()
     return payments_data
-
+def get_all_payments():
+    cur.execute("SELECT * FROM payments")
+    return cur.fetchall()
 def mark_booking_paid(booking_id):
     cur.execute("UPDATE bookings SET payment_status='paid', booking_status='confirmed' WHERE booking_id=%s", (booking_id,))
     conn.commit()
@@ -408,10 +414,34 @@ def insert_notification_for_student(student_id, title, message, notification_typ
         SELECT user_id, %s, %s, %s, %s FROM students WHERE student_id=%s
     """, (title, message, notification_type, is_read, student_id))
     conn.commit()
+
+
+def insert_notification_for_tutor(tutor_user_id, title, message, notification_type, is_read=False):
+    cur.execute("""
+        INSERT INTO notifications (user_id, title, message, notification_type, is_read, sent_at)
+        VALUES (%s, %s, %s, %s, %s, NOW())
+    """, (tutor_user_id, title, message, notification_type, is_read))
+    conn.commit()
+def get_student_name(student_id):
+    student = get_student(student_id) 
+    return student[1]
+
+def get_tutor_user_id(tutor_id):
+    tutor = get_tutor(tutor_id)
+    return tutor[1] 
+
+def get_tutor_user_id(tutor_id):
+    tutor = get_tutor(tutor_id)
+    return tutor[1] 
+
 def get_notification():
     cur.execute("select * from notifications")
     notification_data = cur.fetchall()
     return notification_data
+
+def get_notifications_for_user(user_id):
+    cur.execute("SELECT * FROM notifications WHERE user_id = %s ORDER BY sent_at DESC", (user_id,))
+    return cur.fetchall()
 
 def update_notification( notification_id,title,message):
     cur.execute("UPDATE notifications SET title=%s,message=%sWHERE notification_id=%s", (title, message, notification_id))

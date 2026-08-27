@@ -1,13 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-    <h2>My Tutor Bookings</h2>
-    <a href="/tutor_dashboard">Back to Dashboard</a>
-    <br><br>
+<style>
+body, html { background-color: #808080!important; }
+ footer { background-color: #808080!important; color: black!important; }
+
+.container{
+        background-color: #808080;
+        min-height: 100vh;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: relative;
+        margin-top: -24px;
+        margin-bottom: -100px;
+        padding: 80px 20px 100px 20px;
+       
+        color: black;
+    }
+.container h2{ color: black; font-weight: 800; }
+
+ 
+.table {
+        background-color: #FFDAB3!;
+        color: black;
+        --bs-table-bg: #FFDAB3;
+        --bs-table-striped-bg: #FFDAB3;
+        align-items: center;
+}
+
+.table table-bordered th,.table-bordered td {
+        border-color: black;
+}
+
+.table-dark th {
+        background-color: #000000;
+        color: white;
+}
+</style>
+
+<div class="container" style="background-color:  padding: 20px;  margin-top: 20px; min-height: 70vh;">
+    <h2 style="color: #000; font-weight: bold; text-align: center;">My Tutor Bookings</h2>
+
+    <br>
     {% if bookings|length == 0 %}
         <p>No bookings found.</p>
     {% else %}
-        <table border="1" cellpadding="10" class="table table-bordered">
+        <table cellpadding="10" class="table table-bordered custom-table">
+            <thead class="table-dark">
             <tr>
                 <th>Booking ID</th>
                 <th>Student Name</th>
@@ -19,53 +58,66 @@
                 <th>Lesson</th>
                 <th>Payment</th>
             </tr>
+            </thead>
             {% for b in bookings %}
-<tr>
-    <td>{{ b[0] }}</td>
-    <td>{{ b[9] }} {{ b[10] }}</td> {# FIXED: was b[8] b[9] #}
-    <td>{{ b[3] }}</td>
-    <td>{{ b[4] }} - {{ b[5] }}</td>
-    <td>{{ b[6] }}</td>
-    <td>{{ b[7] }}</td>
-    <td>
-        {% if b[7] == 'pending' %}
-            <form action="{{ url_for('confirm_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-success btn-sm">Confirm</button>
-            </form>
-            <form action="{{ url_for('decline_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-danger btn-sm">Decline</button>
-            </form>
-        {% elif b[7] == 'confirmed' %}
-            <form action="{{ url_for('cancel_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-warning btn-sm">Cancel Booking</button>
-            </form>
-        {% else %}
-            {{ b[7] }}
-        {% endif %}
-    </td>
-    <td>
-        {% if b[7]|lower == 'completed' %}
-            <span class="badge bg-success">Completed</span>
-        {% else %}
-            <span class="badge bg-info">{{ b[7] }}</span>
-        {% endif %}
-    </td>
-    <td>
-        {% if b[8] == 'paid' %}
-            <span class="badge bg-success">PAID ✓</span>
-            <form action="{{ url_for('tutor_mark_unpaid_route', booking_id=b[0]) }}" method="POST" class="mt-1">
-            <button type="submit" class="btn btn-sm btn-outline-danger">Undo</button>
-            </form>
-        {% else %}
-            <span class="badge bg-danger">UNPAID</span>
-            <form action="{{ url_for('tutor_mark_paid_route', booking_id=b[0]) }}" method="POST" class="mt-1">
-            <button type="submit" class="btn btn-sm btn-success">Mark as Paid</button>
-            </form>
-        {% endif %}
-    </td>
-</tr>
-{% endfor %}
+            <tr>
+                <td>{{ b[0] }}</td>
+                <td>{{ b[9] }} {{ b[10] }}</td>
+                <td>{{ b[3] }}</td>
+                <td>{{ b[4] }} - {{ b[5] }}</td>
+                <td>{{ b[6] }}</td>
+                <td>{{ b[7] }}</td>
+                <td>
+                    {% if b[7] == 'pending' %}
+                        <form action="{{ url_for('confirm_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
+                            <input type="text" name="meet_link" placeholder="Paste Meet link" required style="padding:4px; margin-right:5px;">
+                        <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                        </form>
+                        <form action="{{ url_for('decline_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Decline</button>
+                        </form>
+                    {% elif b[7] == 'confirmed' %}
+                        <form action="{{ url_for('cancel_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-warning btn-sm">Cancel Booking</button>
+                        </form>
+                    {% else %}
+                        {{ b[7] }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if b[7]|lower == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <span class="badge bg-info">{{ b[7] }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if b[8] == 'paid' %}
+                        <span class="badge bg-success">PAID ✓</span>
+                        <form action="{{ url_for('tutor_mark_unpaid_route', booking_id=b[0]) }}" method="POST" class="mt-1">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Undo</button>
+                        </form>
+                    {% else %}
+                        <span class="badge bg-danger">UNPAID</span>
+                        <form action="{{ url_for('tutor_mark_paid_route', booking_id=b[0]) }}" method="POST" class="mt-1">
+                        <button type="submit" class="btn btn-sm btn-success">Mark as Paid</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
         </table>
     {% endif %}
 </div>
+
+<script>
+// also force footer grey via JS (in case base.html loads after)
+document.addEventListener("DOMContentLoaded", function(){
+    let footer = document.querySelector('footer');
+    if(footer){
+        footer.style.backgroundColor = "#d3d3d3";
+        footer.style.background = "#d3d3d3";
+    }
+});
+</script>
 {% endblock %}

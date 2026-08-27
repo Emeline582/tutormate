@@ -1,43 +1,88 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Leave a Review</h2>
-<br>
+<style>
+ 
+  body{
+    background: #808080!important;
+    background-color: #808080!important;
+    background-image: none!important;
+  }
+ .container {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+ .reviewcard {
+    background: white;
+    padding: 30px 35px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+ .reviewcard input[type="number"],
+ .reviewcard select,
+ .reviewcard textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+ .reviewcard input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #FF6B00;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+ 
+  
+</style>
 
-<form method="POST" action="/insert_reviews">
+<div class="container">
+  <div class="reviewcard">
+    <h2 class="text-center mb-4" style="font-weight:700;">Leave a Review</h2>
 
-  <label>Booking ID:</label><br>
-  <input type="number" name="booking_id" placeholder="Enter Booking ID e.g. 3" required>
-  <br><br>
+    <form method="POST" action="/insert_reviews">
+      <label>Booking ID:</label><br>
+      <input type="number" name="booking_id" placeholder="Enter Booking ID e.g. 3" required>
+      <br><br>
 
-  <label>Tutor ID:</label><br>
-  <input type="number" name="tutor_id" placeholder="Enter Tutor ID e.g. 1" required
-         value="{{ selected_tutor_id if selected_tutor_id }}">
-  <br><br>
+      <label>Tutor ID:</label><br>
+      <input type="number" name="tutor_id" placeholder="Enter Tutor ID e.g. 1" required
+             value="{{ selected_tutor_id if selected_tutor_id }}">
+      <br><br>
 
-  <label>Rating (1-5):</label><br>
-  <select name="rating" required>
-    <option value="">-- Select Rating --</option>
-    <option value="5">5</option>
-    <option value="4">4</option>
-    <option value="3">3</option>
-    <option value="2">2</option>
-    <option value="1">1</option>
-  </select>
-  <br><br>
+      <label>Rating (1-5):</label><br>
+      <select name="rating" required>
+        <option value="">-- Select Rating --</option>
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Very Good</option>
+        <option value="3">3 - Good</option>
+        <option value="2">2 - Fair</option>
+        <option value="1">1 - Poor</option>
+      </select>
+      <br><br>
 
-  <label>Comment:</label><br>
-  <textarea name="comment" rows="4" cols="40" placeholder="Write your review here e.g. good" required></textarea>
-  <br><br>
+      <label>Comment:</label><br>
+      <textarea name="comment" rows="4" placeholder="Write your review here e.g. good tutor, very helpful" required></textarea>
+      <br><br>
 
-  <input type="submit" value="Submit Review">
+      <input type="submit" value="Submit Review" >
+    </form>
 
-</form>
-
-<p><small>Your bookings:
-{% for b in bookings %}
-  ID {{ b[0] }} (Tutor {{ b[1] }}) |
-{% endfor %}
-</small></p>
+    <p class="mt-4"><small>Your bookings:
+    {% for b in bookings %}
+      ID {{ b[0] }} (Tutor {{ b[1] }}) |
+    {% endfor %}
+    </small></p>
+  </div>
+</div>
 
 {% endblock %}

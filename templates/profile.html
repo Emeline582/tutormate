@@ -7,56 +7,93 @@ Profile
 {% block content %}
 
 <style>
-.container-fluid{
-     background-color: powderblue;   
-}
-.body{
-background-color: powderblue;
- }
+    html, body {
+        background-color: grey!important;
+        background: grey!important;
+    }
+    footer,.footer,#footer,.bg-dark,.bg-light,.bg-white {
+        background-color: grey!important;
+        background: grey!important;
+    }
+  .profile-wrapper {
+        background-color: grey!important;
+        min-height: 85vh;
+        padding: 30px 15px;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+    }
+  .profile-card {
+        background-color: #FFE5B4!important;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #ffcc80;
+    }
+  .profile-card th {
+        background-color: #FFCC99!important; /* darker light orange for heading, no black */
+        color: #000!important;
+        width: 35%;
+        padding: 12px 15px;
+        font-weight: bold;
+        border: 1px solid #e6a86b;
+    }
+  .profile-card td {
+        background-color: #FFE5B4!important;
+        padding: 12px 15px;
+        border: 1px solid #e6a86b;
+    }
+  .profile-card tr:hover td,.profile-card tr:hover th {
+        background-color: #FFD699!important;
+    }
 </style>
-<div class="container-fluid mt-4">
 
-    <h2 class="text-center  mb-4">My Profile</h2>
+<div class="profile-wrapper">
+    <div class="container">
 
-    <table class="table table-bordered table-striped ">
+        <h2 class="text-center mb-4" style="color:#000; font-weight:bold; margin-top: 60px; padding-top: 10px;" >My Profile</h2>
 
-        <tr>
-            <th>User ID</th>
-            <td>{{ user[0] }}</td>
-        </tr>
+        <table class="table table-bordered profile-card">
+            <tr>
+                <th>User ID</th>
+                <td>{{ user[0] }}</td>
+            </tr>
+            <tr>
+                <th>First Name</th>
+                <td>{{ user[1] }}</td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>{{ user[2] }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user[3] }}</td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>{{ user[4] }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ user[6] }}</td>
+            </tr>
+            <tr>
+                <th>Account Created</th>
+                <td>{{ user[7] }}</td>
+            </tr>
+        </table>
 
-        <tr>
-            <th>First Name</th>
-            <td>{{ user[1] }}</td>
-        </tr>
-
-        <tr>
-            <th>Last Name</th>
-            <td>{{ user[2] }}</td>
-        </tr>
-
-        <tr>
-            <th>Email</th>
-            <td>{{ user[3] }}</td>
-        </tr>
-
-        <tr>
-            <th>Phone Number</th>
-            <td>{{ user[4] }}</td>
-        </tr>
-
-        <tr>
-            <th>Role</th>
-            <td>{{ user[6] }}</td>
-        </tr>
-
-        <tr>
-            <th>Account Created</th>
-            <td>{{ user[7] }}</td>
-        </tr>
-
-    </table>
-
+    </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    let footer = document.querySelector('footer');
+    if(footer){
+        footer.style.backgroundColor = "grey";
+        footer.style.background = "grey";
+    }
+    document.body.style.backgroundColor = "grey";
+});
+</script>
 
 {% endblock %}

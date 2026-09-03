@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-body, html { background-color: #808080!important; }
- footer { background-color: #808080!important; color: black!important; }
-
+body, html { background-color: #808080; }
+footer { background-color: #808080; color: black; }
 .container{
         background-color: #808080;
         min-height: 100vh;
@@ -14,33 +13,23 @@ body, html { background-color: #808080!important; }
         margin-top: -24px;
         margin-bottom: -100px;
         padding: 80px 20px 100px 20px;
-       
         color: black;
     }
 .container h2{ color: black; font-weight: 800; }
-
- 
 .table {
-        background-color: #FFDAB3!;
+        background-color: #FFDAB3;
         color: black;
         --bs-table-bg: #FFDAB3;
         --bs-table-striped-bg: #FFDAB3;
-        align-items: center;
 }
-
-.table table-bordered th,.table-bordered td {
-        border-color: black;
-}
-
 .table-dark th {
         background-color: #000000;
         color: white;
 }
 </style>
 
-<div class="container" style="background-color:  padding: 20px;  margin-top: 20px; min-height: 70vh;">
+<div class="container" style="padding: 20px; margin-top: 20px; min-height: 70vh;">
     <h2 style="color: #000; font-weight: bold; text-align: center;">My Tutor Bookings</h2>
-
     <br>
     {% if bookings|length == 0 %}
         <p>No bookings found.</p>
@@ -55,8 +44,8 @@ body, html { background-color: #808080!important; }
                 <th>Mode</th>
                 <th>Status</th>
                 <th>Action</th>
-                <th>Lesson</th>
                 <th>Payment</th>
+                <th>M-Pesa Code</th>
             </tr>
             </thead>
             {% for b in bookings %}
@@ -68,39 +57,42 @@ body, html { background-color: #808080!important; }
                 <td>{{ b[6] }}</td>
                 <td>{{ b[7] }}</td>
                 <td>
+                    
                     {% if b[7] == 'pending' %}
                         <form action="{{ url_for('confirm_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
                             <input type="text" name="meet_link" placeholder="Paste Meet link" required style="padding:4px; margin-right:5px;">
-                        <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+                            <button type="submit" class="btn btn-success btn-sm">Confirm</button>
                         </form>
                         <form action="{{ url_for('decline_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Decline</button>
+                            <button type="submit" class="btn btn-danger btn-sm">Decline</button>
                         </form>
-                    {% elif b[7] == 'confirmed' %}
+                        
+                        {% elif b[7].lower() == 'confirmed' %}
                         <form action="{{ url_for('cancel_booking_r', booking_id=b[0]) }}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-warning btn-sm">Cancel Booking</button>
+                            <button type="submit" class="btn btn-warning btn-sm">Cancel</button>
                         </form>
                     {% else %}
                         {{ b[7] }}
                     {% endif %}
                 </td>
                 <td>
-                    {% if b[7]|lower == 'completed' %}
-                        <span class="badge bg-success">Completed</span>
+                    {% if b[8] == 'paid' %}
+                        <span class="badge bg-success">PAID ✓</span>
                     {% else %}
-                        <span class="badge bg-info">{{ b[7] }}</span>
+                        <span class="badge bg-danger">UNPAID</span>
                     {% endif %}
                 </td>
                 <td>
-                    {% if b[8] == 'paid' %}
-                        <span class="badge bg-success">PAID ✓</span>
-                        <form action="{{ url_for('tutor_mark_unpaid_route', booking_id=b[0]) }}" method="POST" class="mt-1">
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Undo</button>
+                    {% if b[8]!= 'paid' %}
+                        <form action="{{ url_for('tutor_mark_paid', booking_id=b[0]) }}" method="POST" style="display:flex; gap:5px;">
+                            <input type="number" name="amount" placeholder="Ksh" required style="padding:5px; width:80px;">
+                            <input type="text" name="transaction_code" placeholder="enter code" required style="padding:5px;">
+                            <button type="submit" style="background:green; color:white; padding:5px 10px; border:none; cursor:pointer;">Mark as Paid</button>
                         </form>
                     {% else %}
-                        <span class="badge bg-danger">UNPAID</span>
-                        <form action="{{ url_for('tutor_mark_paid_route', booking_id=b[0]) }}" method="POST" class="mt-1">
-                        <button type="submit" class="btn btn-sm btn-success">Mark as Paid</button>
+                        <small>Verified</small>
+                        <form action="{{ url_for('tutor_mark_unpaid', booking_id=b[0]) }}" method="POST" class="mt-1">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Undo</button>
                         </form>
                     {% endif %}
                 </td>
@@ -109,15 +101,4 @@ body, html { background-color: #808080!important; }
         </table>
     {% endif %}
 </div>
-
-<script>
-// also force footer grey via JS (in case base.html loads after)
-document.addEventListener("DOMContentLoaded", function(){
-    let footer = document.querySelector('footer');
-    if(footer){
-        footer.style.backgroundColor = "#d3d3d3";
-        footer.style.background = "#d3d3d3";
-    }
-});
-</script>
 {% endblock %}

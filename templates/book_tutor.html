@@ -1,21 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-  <h2>Book Tutor: {{ tutor[1] }} {{ tutor[2] }}</h2>
-  <form method="POST">
-    <label>Subject</label>
-    <input type="text" name="subject" class="form-control" required>
+<style>
+  body {
+    background-color: #3a3a3a;
+  }
+  .footer {
+    background-color: #3a3a3a;
+    color: whitesmoke;
+    border: none;
+  }
+</style>
 
-    <label class="mt-2">Date</label>
-    <input type="date" name="date" class="form-control" required>
+<div style="background-color: #3a3a3a; min-height: 85vh; padding: 40px 0;">
+  <div class="container mt-5">
+    <div class="card p-4" style="background-color: #ffffff; border: none; color: #000000;">
+      <h2>Book Tutor: {{ tutor[1] }} {{ tutor[2] }}</h2>
+      <form method="POST">
+        <label>Subject</label>
+        <input type="text" name="subject" class="form-control" required>
 
-    <label class="mt-2">Start Time</label>
-    <input type="time" name="start_time" class="form-control" required>
+        <label class="mt-2">Date</label>
+        <input type="date" name="date" class="form-control" required>
 
-    <label class="mt-2">End Time</label>
-    <input type="time" name="end_time" class="form-control" required>
+        <label class="mt-2">Start Time</label>
+        <input type="time" name="start_time" class="form-control" required>
 
-    <button type="submit" class="btn btn-primary mt-3">Book Now</button>
-  </form>
+        <label class="mt-2">End Time</label>
+        <input type="time" name="end_time" class="form-control" required>
+
+        <button type="submit" class="btn mt-3" style="background-color: #ff6a00; color: white; border: none; font-weight: bold; width: 100%;">Book Now</button>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}

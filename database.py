@@ -4,40 +4,11 @@ import psycopg2
 conn = psycopg2.connect(host='localhost',port=5432,user='postgres',password='Emmy3986',dbname='tutormate')
 cur = conn.cursor()
 
-conn.autocommit = True   #
+conn.autocommit = True   
 
 
 
-def count_users():
-    cur.execute("SELECT COUNT(*) FROM users")
-    total = cur.fetchone()[0]
 
-    return total
-
-def count_tutors():
-    cur.execute("SELECT COUNT(*) FROM tutors")
-    total = cur.fetchone()[0]
-
-    return total
-
-def count_students():
-    cur.execute("SELECT COUNT(*) FROM students")
-    total = cur.fetchone()[0]
-
-    return total
-
-
-def count_bookings():
-    cur.execute("SELECT COUNT(*) FROM bookings")
-    total = cur.fetchone()[0]
-
-    return total
-
-def count_pending_payments():
-    cur.execute("SELECT COUNT(*)FROM payments WHERE payment_status='Pending'")
-    total = cur.fetchone()[0]
-
-    return total
 
 def count_upcoming_bookings(student_id):
     cur.execute("SELECT COUNT(*)FROM bookings WHERE student_id = %s AND booking_status='Confirmed'", (student_id,))
@@ -89,9 +60,6 @@ def update_user(first_name, last_name, email, phone,user_id):
     conn.commit()
 
 
-def insert_tutor(user_id, subject, qualification, experience_years, hourly_rate, bio, availability):
-    cur.execute("INSERT INTO tutors(user_id,subject,qualification,experience_years,hourly_rate,bio,availability) VALUES(%s,%s,%s,%s,%s,%s,%s)", (user_id,subject,qualification,experience_years,hourly_rate,bio,availability))
-    conn.commit()
 
 
 
@@ -139,9 +107,6 @@ def get_tutor_availability(tutor_id):
 
 
 
-def insert_student(user_id, school_name, education_level, learning_goal, preferred_subject):
-    cur.execute("INSERT INTO students(user_id,school_name,education_level,learning_goal,preferred_subject) VALUES(%s,%s,%s,%s,%s)", (user_id,school_name,education_level,learning_goal,preferred_subject))
-    conn.commit()
 
 def get_student():
     cur.execute("select * from students")
@@ -149,29 +114,41 @@ def get_student():
     return students_data
 
 def check_user_exists(email):
-    try:
+  
         cur.execute("SELECT * FROM users WHERE email=%s", (email,))
-        return cur.fetchone()
-    except Exception as e:
-        conn.rollback()
-        print("check_user_exists error:", e)
-        raise
+        result = cur.fetchone()
+        return result
+    
 
 def insert_user(user):
-    try:
+  
         cur.execute("""
             INSERT INTO users
             (first_name,last_name,email,phone_number,role,password)
             VALUES (%s,%s,%s,%s,%s,%s)
         """, user)
-        
         conn.commit()
+      
 
-    except Exception as e:
-        conn.rollback()
-        print("insert_user error:", e)
-        raise
+def insert_student(user_id, education="", subjects="", availability="Available"):
     
+        cur.execute(
+            "INSERT INTO students (user_id) VALUES (%s)",
+            (user_id,)
+        )
+        conn.commit()
+       
+
+def insert_tutor(user_id, subject="General", bio="", experience=0, price=0, education="", availability="Available"):
+   
+        cur.execute(
+            "INSERT INTO tutors (user_id) VALUES (%s)",
+            (user_id,)
+        )
+        conn.commit()
+        
+    
+
 def get_student_by_user_id(user_id):
     cur.execute(
         "SELECT * FROM students WHERE user_id=%s",(user_id,))
@@ -187,9 +164,12 @@ def delete_student( student_id):
 
     conn.commit()
 
-def insert_booking(student_id, tutor_id, subject, booking_date, start_time, end_time, booking_status="Pending"):
-    cur.execute("INSERT INTO bookings(student_id, tutor_id, booking_date, start_time, end_time, session_mode, notes) VALUES(%s,%s,%s,%s,%s,%s,%s)", 
-                (student_id, tutor_id, booking_date, start_time, end_time, subject, booking_status))
+
+def insert_booking(student_id, tutor_id, booking_date, start_time, end_time, session_mode, notes):
+    cur.execute("""
+        INSERT INTO bookings(student_id, tutor_id, booking_date, start_time, end_time, session_mode, notes)
+        VALUES(%s,%s,%s,%s,%s,%s,%s)
+    """, (student_id, tutor_id, booking_date, start_time, end_time, session_mode, notes))
     conn.commit()
 def get_booking(booking_id):
     cur.execute("SELECT * FROM bookings WHERE booking_id=%s", (booking_id,))
@@ -246,46 +226,6 @@ def complete_booking(booking_id):
 
 
 
-def get_student_bookings(student_id):
-    cur.execute("""
-        SELECT
-            b.booking_id,
-            b.tutor_id,
-            b.booking_date,
-            b.start_time,
-            b.end_time,
-            b.m_ode,
-            b.booking_status            
-        FROM bookings b
-        JOIN tutors t ON b.tutor_id = t.tutor_id
-        JOIN users u ON t.user_id = u.user_id
-        WHERE b.student_id = %s
-        ORDER BY b.booking_id DESC        
-    """, (student_id,))
-    bookings = cur.fetchall()
-    return bookings
-def get_tutor_bookings(tutor_id):
-    cur.execute("""
-        SELECT
-            b.booking_id,
-            b.student_id,
-            b.tutor_id,
-            b.booking_date,
-            b.start_time,
-            b.end_time,
-            b.session_mode,
-            b.booking_status,
-            b.payment_status,
-            u.first_name,
-            u.last_name
-        FROM bookings b
-        JOIN students s ON b.student_id = s.student_id
-        JOIN users u ON s.user_id = u.user_id
-        WHERE b.tutor_id = %s
-        ORDER BY b.booking_date 
-    """, (tutor_id,))
-    bookings = cur.fetchall()
-    return bookings
 
 def insert_payment(booking_id, amount, payment_method, payment_status, transaction_code):
     cur.execute("INSERT INTO payments(booking_id,amount,payment_method,payment_status,transaction_code) VALUES(%s,%s,%s,%s,%s)", 
@@ -306,7 +246,13 @@ def mark_booking_paid(booking_id):
 def mark_booking_unpaid(booking_id):
     cur.execute("UPDATE bookings SET payment_status='unpaid', booking_status='pending' WHERE booking_id=%s", (booking_id,))
     conn.commit()
+def insert_payment(booking_id, amount, code):
+    cur.execute("INSERT INTO payments (booking_id, amount, payment_method, payment_status, transaction_code, payment_date) VALUES (%s, %s, 'M-Pesa', 'Paid', %s, NOW())", (booking_id, amount, code))
+    conn.commit()
 
+def get_student_payments(student_id):
+    cur.execute("SELECT p.payment_id, p.booking_id, p.amount, p.payment_method, p.payment_status, p.transaction_code, p.payment_date FROM payments p JOIN bookings b ON p.booking_id = b.booking_id WHERE b.student_id = %s", (student_id,))
+    return cur.fetchall()
 def get_student_user_id_from_booking(booking_id):
     cur.execute("SELECT s.user_id FROM bookings b JOIN students s ON b.student_id = s.student_id WHERE b.booking_id=%s", (booking_id,))
     row = cur.fetchone()
@@ -333,19 +279,117 @@ def update_payment(payment_id, booking_id, amount, payment_method, payment_statu
 
     conn.commit()
 
-def insert_review(booking_id, tutor_id, student_id, rating, comment):
-    cur = conn.cursor()
+
+def get_tutor_id_by_user(user_id):
+    cur.execute("SELECT tutor_id FROM tutors WHERE user_id = %s", (user_id,))
+    row = cur.fetchone()
+    return row[0] if row else None
+
+def get_student_id_by_user(user_id):
+    cur.execute("SELECT student_id FROM students WHERE user_id = %s", (user_id,))
+    row = cur.fetchone()
+    return row[0] if row else None
+
+def get_payment_by_booking(booking_id):
+    cur.execute("SELECT payment_id FROM public.payments WHERE booking_id = %s", (booking_id,))
+    return cur.fetchone()
+
+def get_booking_amount(booking_id):
+    cur.execute("SELECT amount FROM public.payments WHERE booking_id = %s", (booking_id,))
+    row = cur.fetchone()
+    return row[0] if row else 0
+
+def update_payment_to_paid(booking_id, mpesa_code):
     cur.execute("""
-        INSERT INTO reviews (booking_id, tutor_id, student_id, rating, comment)
-        VALUES (%s, %s, %s, %s, %s)
-    """, (booking_id, tutor_id, student_id, rating, comment))
+        UPDATE public.payments
+        SET payment_method = 'mpesa',
+            payment_status = 'paid',
+            transaction_code = %s,
+            payment_date = CURRENT_TIMESTAMP
+        WHERE booking_id = %s
+    """, (mpesa_code, booking_id))
     conn.commit()
+
+def insert_payment_as_paid(booking_id, amount, mpesa_code):
+    cur.execute("""
+        INSERT INTO public.payments (booking_id, amount, payment_method, payment_status, transaction_code)
+        VALUES (%s, %s, 'mpesa', 'paid', %s)
+    """, (booking_id, amount, mpesa_code))
+    conn.commit()
+
+def get_student_payments(student_id):
+    cur.execute("""
+        SELECT p.payment_id, p.amount, p.payment_method,
+               p.payment_status, p.transaction_code, p.payment_date, b.booking_id
+        FROM public.payments p
+        JOIN public.bookings b ON p.booking_id = b.booking_id
+        WHERE b.student_id = %s
+        ORDER BY p.payment_date DESC
+    """, (student_id,))
+    return cur.fetchall()
+
+def get_student_payments(student_id):
+    cur.execute("""
+        SELECT p.payment_id, p.booking_id, p.amount,
+               p.payment_method, p.payment_status,
+               p.transaction_code, p.payment_date,
+               u.first_name as tutor_name
+        FROM payments p
+        JOIN bookings b ON p.booking_id = b.booking_id
+        JOIN tutors t ON b.tutor_id = t.tutor_id
+        JOIN users u ON t.user_id = u.user_id
+        WHERE b.student_id = %s
+        ORDER BY p.payment_date DESC
+    """, (student_id,))
+    return cur.fetchall()
+def get_tutor_bookings(tutor_id):
+    cur.execute("""
+        SELECT
+            b.booking_id,
+            b.student_id,
+            b.tutor_id,
+            b.booking_date,
+            b.start_time,
+            b.end_time,
+            'online' as session_mode,  
+            b.booking_status,
+            COALESCE(b.payment_status, 'unpaid') as payment_status,
+            u.first_name,
+            u.last_name
+        FROM bookings b
+        JOIN students s ON b.student_id = s.student_id
+        JOIN users u ON s.user_id = u.user_id
+        WHERE b.tutor_id = %s
+        ORDER BY b.booking_id DESC
+    """, (tutor_id,))
+    return cur.fetchall()
     
+
+def insert_reviews(booking_id, tutor_id, student_id, rating, comment):
+    cur.execute("""
+        INSERT INTO reviews (booking_id, tutor_id, student_id, rating, comment, created_at)
+        VALUES (%s, %s, %s, %s, %s, NOW())
+        RETURNING review_id;
+    """, (booking_id, tutor_id, student_id, rating, comment))
+    return cur.fetchone()[0]
 
 def get_review():
     cur.execute("select * from reviews")
     review_data = cur.fetchall()
     return review_data
+
+def get_reviews_for_tutor(tutor_id):
+    cur.execute("""
+        SELECT r.rating, r.comment, r.created_at,
+               u.first_name, u.last_name
+        FROM reviews r
+        JOIN students s ON r.student_id = s.student_id
+        JOIN users u ON s.user_id = u.user_id
+        WHERE r.tutor_id = %s
+        ORDER BY r.created_at DESC
+    """, (tutor_id,))
+    return cur.fetchall()
+
 
 def update_review( review_id, rating, comment):
     cur.execute("UPDATE reviews SET rating=%s,comment=%s WHERE review_id=%s", (rating, comment, review_id))
@@ -408,19 +452,21 @@ def insert_notification(user_id, title, message, notification_type="review", is_
     """, (user_id, title, message, notification_type, is_read))
     conn.commit()
     
-def insert_notification_for_student(student_id, title, message, notification_type, is_read):
-    cur.execute("""
-        INSERT INTO notifications(user_id, title, message, notification_type, is_read)
-        SELECT user_id, %s, %s, %s, %s FROM students WHERE student_id=%s
-    """, (title, message, notification_type, is_read, student_id))
-    conn.commit()
-
 
 def insert_notification_for_tutor(tutor_user_id, title, message, notification_type, is_read=False):
     cur.execute("""
         INSERT INTO notifications (user_id, title, message, notification_type, is_read, sent_at)
         VALUES (%s, %s, %s, %s, %s, NOW())
     """, (tutor_user_id, title, message, notification_type, is_read))
+    conn.commit()
+
+
+
+def insert_notification_for_student(student_user_id, title, message, type, tutor_id, is_read=False):
+    cur.execute("""
+        INSERT INTO notifications(user_id, title, message, notification_type, is_read, tutor_id)
+        VALUES(%s,%s,%s,%s,%s,%s)
+    """, (student_user_id, title, message, type, is_read, tutor_id))
     conn.commit()
 def get_student_name(student_id):
     student = get_student(student_id) 
@@ -430,10 +476,13 @@ def get_tutor_user_id(tutor_id):
     tutor = get_tutor(tutor_id)
     return tutor[1] 
 
-def get_tutor_user_id(tutor_id):
-    tutor = get_tutor(tutor_id)
-    return tutor[1] 
+def get_student_by_student_id(student_id):
+    cur.execute("SELECT * FROM students WHERE student_id = %s", (student_id,))
+    return cur.fetchone()
 
+def get_user_by_id(user_id):
+    cur.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
+    return cur.fetchone()
 def get_notification():
     cur.execute("select * from notifications")
     notification_data = cur.fetchall()
@@ -442,7 +491,9 @@ def get_notification():
 def get_notifications_for_user(user_id):
     cur.execute("SELECT * FROM notifications WHERE user_id = %s ORDER BY sent_at DESC", (user_id,))
     return cur.fetchall()
-
+def mark_as_read(notification_id):
+    cur.execute("UPDATE notifications SET is_read = TRUE WHERE notification_id = %s", (notification_id,))
+    conn.commit()
 def update_notification( notification_id,title,message):
     cur.execute("UPDATE notifications SET title=%s,message=%sWHERE notification_id=%s", (title, message, notification_id))
     conn.commit()
@@ -474,3 +525,22 @@ def count_notifications():
     cur.execute(" SELECT COUNT(*) FROM notifications ")
     total = cur.fetchone()[0]
     return total
+
+def get_student_bookings(student_id):
+    cur.execute("""
+        SELECT
+            b.booking_id,
+            b.tutor_id,
+            b.booking_date,
+            b.start_time,
+            b.end_time,
+            b.m_ode,
+            b.booking_status            
+        FROM bookings b
+        JOIN tutors t ON b.tutor_id = t.tutor_id
+        JOIN users u ON t.user_id = u.user_id
+        WHERE b.student_id = %s
+        ORDER BY b.booking_id DESC        
+    """, (student_id,))
+    bookings = cur.fetchall()
+    return bookings

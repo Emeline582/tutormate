@@ -29,8 +29,8 @@
     .navbar-dark .navbar-brand,
     .navbar .nav-link,
     .navbar .navbar-brand {
-        color: black !important;
-        font-weight: 600 !important;
+        color: black ;
+        font-weight: 600 ;
     }
     </style>
 </head>
@@ -49,9 +49,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
                         {% if session.get('user_id') %}
-                            {% if session.get('role') == 'admin' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin_dashboard') }}">adminDashboard</a></li>
-                            {% endif %}
+                            
                             {% if session.get('role') == 'tutor' %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_dashboard') }}">Dashboard</a></li>
                             {% endif %}
@@ -59,15 +57,14 @@
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('student_dashboard') }}">Dashboard</a></li>
                             {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('tutors') }}">Tutors</a></li>
+                            
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('notifications') }}">Notifications</a></li>
-                            {% if session.get('role') == 'student' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('reviews') }}">Reviews</a></li>
-                            {% endif %}
+                            
                             {% if session.get('role') == 'tutor' %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('tutor_bookings') }}">Bookings</a></li>
                             {% endif %}
                             {% if session.get('role') == 'student' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('my_bookings') }}">Bookings</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/my_bookings">Bookings</a></li>
                             {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profile</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
@@ -81,18 +78,19 @@
         </nav>
     </div>
 
-    <div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    
+    <div style="position: fixed; top: 70px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 80%;">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" style="background: red; color: black; border: 2px solid red; font-size: 18px;">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
 
     {% block content %}{% endblock %}
 

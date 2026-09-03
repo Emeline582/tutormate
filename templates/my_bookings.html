@@ -6,8 +6,8 @@
 
 {% block content %}
 <style>
-body, html { background-color: #808080!important; }
- footer { background-color: #808080!important; color: black!important; }
+body, html { background-color: #808080; }
+ footer { background-color: #808080; color: black; }
 
 .container{
         background-color: #808080;
@@ -51,25 +51,18 @@ body, html { background-color: #808080!important; }
     {% if bookings|length == 0 %}
         <p>No bookings found.</p>
     {% else %}
-        <table class="table table-bordered">
-    <tr class="table-dark table-bordered">
-        <th>Booking ID</th>
-        <th>Tutor ID</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Mode</th>
-        <th>Status</th>
-    </tr>
-    {% for b in bookings %}
-    <tr class="table-bordered">
-        <td>{{ b[0] }}</td> 
-        <td>{{ b[1] }}</td> 
-        <td>{{ b[2] }}</td> 
-        <td>{{ b[3] }} - {{ b[4] }}</td> 
-        <td>{{ b[5] }}</td> 
-        <td>{{ b[6] }}</td>
-    </tr>
-    {% endfor %}
+    <table class="table table-bordered">
+<tr style="background:black;color:white;">
+<th>ID</th><th>Tutor Name</th><th>Date</th><th>Status</th>
+</tr>
+{% for b in bookings %}
+<tr>
+<td>{{ b[0] }}</td>
+<td style="color:black; font-weight:bold;">{{ b[7] }} {{ b[8] }}</td>
+<td>{{ b[2] }}</td>
+<td>{{ b[5] }}</td>
+</tr>
+{% endfor %}
 </table>
     
     {% endif %}

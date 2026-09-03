@@ -6,8 +6,8 @@ Notifications
 
 {% block content %}
 <style>
- body, html { background-color: #808080!important; }
- footer { background-color: #808080!important; color: black!important; }
+ body, html { background-color: #808080; }
+ footer { background-color: #808080; color: black; }
 
 .notifications{
         background-color: #808080;
@@ -70,7 +70,7 @@ Notifications
             <td>{{ notification[2] }}</td>
             <td>{{ notification[3] }}</td>
             <td>{{ notification[4] }}</td>
-            <td>{{ notification[5] }}</td>
+            <td>{{ 'Read' if notification[5] else 'Unread' }}</td>
             <td>{{ notification[6] }}</td>
         </tr>
         {% endfor %}

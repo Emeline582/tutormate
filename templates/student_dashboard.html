@@ -4,8 +4,8 @@
 
 {% block content %}
 <style>
-   body, html { background-color: #808080!important; }
-footer { background-color: #808080!important; }
+   body, html { background-color: #808080; }
+footer { background-color: #808080; }
     .container{
            background-color: #808080;
            min-height: 100vh;
@@ -29,54 +29,42 @@ footer { background-color: #808080!important; }
     
     <div class="row">
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning shadow">
-                <div class="card-body text-center">
-                    <h5>Total Bookings</h5>
-                    <h2>{{ total_bookings }}</h2>
-                </div>
-            </div>
+        
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning shadow">
-                <div class="card-body text-center">
-                    <h5>Upcoming Lessons</h5>
-                    <h2>{{ upcoming_bookings }}</h2>
-                </div>
+        <div class="row d-flex justify-content-between" style="display:flex; flex-direction:row; gap:15px; flex-wrap:wrap;">
+
+    <div class="col-md-3 mb-3" style="flex:1;">
+        <div class="card bg-warning shadow">
+            <div class="card-body text-center">
+                <h5>Upcoming Lessons</h5>
+                <h2>{{ upcoming_bookings }}</h2>
             </div>
         </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card  bg-warning shadow">
-                <div class="card-body text-center">
-                    <h5>Completed Lessons</h5>
-                    <h2>{{ completed_bookings }}</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning shadow">
-                <div class="card-body text-center">
-                    <h5>Pending Payments</h5>
-                    <h2>{{ pending_payments }}</h2>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <div class="row">
-
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning shadow">
-                <div class="card-body text-center">
-                    <h5>Notifications</h5>
-                    <h2>{{ unread_notifications }}</h2>
-                </div>
+    <div class="col-md-3 mb-3" style="flex:1;">
+        <div class="card bg-warning shadow">
+            <div class="card-body text-center">
+                <h5>Completed Lessons</h5>
+                <h2>{{ completed_bookings }}</h2>
             </div>
         </div>
+    </div>
+
+    <div class="col-md-3 mb-3" style="flex:1;">
+        <div class="card bg-warning shadow">
+            <div class="card-body text-center">
+                <h5>Pending Payments</h5>
+                <h2>{{ pending_payments }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+    <div class="row">
+
+        
 
     </div>
 
@@ -105,11 +93,7 @@ footer { background-color: #808080!important; }
             </a>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <a href="{{ url_for('reviews') }}" class="btn btn-info w-100">
-                My Reviews
-            </a>
-        </div>
+       
 
     </div>
 

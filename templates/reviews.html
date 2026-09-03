@@ -4,9 +4,9 @@
 <style>
  
   body{
-    background: #808080!important;
-    background-color: #808080!important;
-    background-image: none!important;
+    background: #808080;
+    background-color: #808080;
+    background-image: none;
   }
  .container {
     min-height: 80vh;
@@ -51,17 +51,17 @@
 
     <form method="POST" action="/insert_reviews">
       <label>Booking ID:</label><br>
-      <input type="number" name="booking_id" placeholder="Enter Booking ID e.g. 3" required>
+      <input type="number" name="booking_id" placeholder="Enter Booking ID " required>
       <br><br>
 
-      <label>Tutor ID:</label><br>
-      <input type="number" name="tutor_id" placeholder="Enter Tutor ID e.g. 1" required
+      <label>Tutor Name:</label><br>
+      <input type="text" name="tutor_name" placeholder="Enter Tutor name" required
              value="{{ selected_tutor_id if selected_tutor_id }}">
       <br><br>
 
       <label>Rating (1-5):</label><br>
       <select name="rating" required>
-        <option value="">-- Select Rating --</option>
+        <option value=""> Select Rating </option>
         <option value="5">5 - Excellent</option>
         <option value="4">4 - Very Good</option>
         <option value="3">3 - Good</option>

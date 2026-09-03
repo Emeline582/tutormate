@@ -4,8 +4,8 @@
 
 {% block content %}
 <style>
-    body, html { background-color: #808080!important; }
-footer { background-color: #808080!important; }
+    body, html { background-color: #808080; }
+footer { background-color: #808080; }
  .body{
         background-color: #808080;
         min-height: 100vh;
@@ -38,7 +38,7 @@ footer { background-color: #808080!important; }
     }
  
  .card-footer{
-        background-color: #FF6B00!important;
+        background-color: #FF6B00;
         border-top: 1px solid black;
     }
 </style>
@@ -121,15 +121,18 @@ footer { background-color: #808080!important; }
                        View Profile
                     </a>
 
-                    <a href="{{ url_for('insert_reviews_r', tutor_id=tutor[0]) }}"
+                    <a href="{{ url_for('insert_reviews_page', tutor_id=tutor[0]) }}"
                        class="btn btn-outline-dark btn-sm">
                         ⭐ Review
                     </a>
-
+                      {% if session.get('role') == 'student' %}
                     <a href="{{ url_for('book_tutor', tutor_id=tutor[0]) }}"
                        class="btn btn-dark btn-sm float-end">
                         Book Now
                     </a>
+                    
+                     {% endif %}
+
                 </div>
             </div>
         </div>

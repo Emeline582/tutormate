@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+html, body {
+    background: #b3b3b3; 
+    height: 100%;
+  }
+.page-bg {
+    background: #b3b3b3; 
+    padding: 25px 0;
+    margin-bottom: -50px; 
+  }
+.tutor-card {
+    background: #FFE5CC;
+    border: 1px solid #FFB366;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+.review-card {
+    background: #FFD9B3;
+    border: 1px solid #FFA64D;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+  }
+.no-review {
+    background: #FFE5CC;
+    padding: 15px;
+    border-radius: 8px;
+  }
+.reviews-title {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+
+.footer {
+    background: #b3b3b3;
+    background-color: #b3b3b3;
+    border-top: none;
+    color: #222;
+  }
+.footer a {
+    color: #222;
+  }
+</style>
+
+<div class="page-bg">
+<div class="container mt-4">
+    <div class="tutor-card">
+        {% if user %}
+            <h3>{{ user[1] }} {{ user[2] if user|length > 2 else '' }}</h3>
+            <p>{{ user[3] if user|length > 3 else '' }}</p>
+        {% else %}
+            <h3>Tutor #{{ tutor[0] }}</h3>
+        {% endif %}
+        <p><b>Subject:</b> {{ tutor[2] }}</p>
+        <p><b>Qualification:</b> {{ tutor[3] }}</p>
+        <p><b>Experience:</b> {{ tutor[4] }} years</p>
+        <p><b>Rate:</b> ${{ tutor[5] }}</p>
+        <p><b>Bio:</b> {{ tutor[6] }}</p>
+    </div>
+
+    <h4 class="reviews-title">⭐ {{ avg }} ({{ count }} reviews)</h4>
+
+    {% for r in reviews %}
+    <div class="review-card">
+        <b>{{ r[3] }}</b> - {{ r[0] }}/5 ⭐
+        <p>{{ r[1] }}</p>
+        <small>{{ r[2].strftime('%d %b %Y') }}</small>
+    </div>
+    {% else %}
+    <div class="no-review"><p>No reviews yet.</p></div>
+    {% endfor %}
+
+    <a href="{{ url_for('insert_reviews_page', tutor_id=tutor[0]) }}" class="btn btn-warning mt-3">Leave Review</a>
+</div>
+</div>
+{% endblock %}

@@ -9,12 +9,12 @@ html, body {
 }
 
 body {
-    background-image: url("{{ url_for('static', filename='tutormate_image.jpg') }}")!important;
-    background-size: cover!important;
-    background-position: center!important;
-    background-repeat: no-repeat!important;
-    background-attachment: fixed!important;
-    background-color: transparent!important;
+    background-image: url("{{ url_for('static', filename='tutormate_image.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: transparent;
 }
 
 .text {
@@ -28,26 +28,39 @@ body {
 }
 
 .text h1 {
-    color: white !important;
-    text-shadow: 2px 2px 8px black;
+    color: white ;
+   
 }
 
 .text p {
-    color: white !important;
+    color: white ;
     text-shadow: 1px 1px 6px black;
     padding-top: 20px;
 }
+footer { background-color: #808080; }
+    .container{
+           background-color: #808080;
+           min-height: 100vh;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+        position: relative;
+        margin-top: -8px; 
+        margin-bottom: -100px; 
+        padding: 80px 20px 100px 20px; 
+        color: black;
+    }
 </style>
 
 
   <div class="text">
-    <h1 style="font-size: 70px; font-weight: 900; color: black; ">Welcome to TutorMate</h1>
-    <p style="font-size: 25px; color: black; font-weight: 600; ">Find the Right Tutor. Learn with Confidence.</p>
-    <p style="font-size: 20px; color: black; ">Connect with qualified tutors, book sessions online, and improve.</p>
+    <h1 style="font-size: 70px; font-weight: 900;  ">Welcome to TutorMate</h1>
+    <p style="font-size: 25px; color: white; font-weight: 600; ">Find the Right Tutor. Learn with Confidence.</p>
+    <p style="font-size: 20px; color: white; ">Connect with qualified tutors, book sessions online, and improve.</p>
     
     <div style="margin-top: 30px;">
-        <a href="#" class="btn" style="background-color: #6c757d; color: black; font-weight: bold; padding: 12px 30px; margin: 10px;">Get started</a>
-        <a href="{{ url_for('tutors') }}" class="btn" style="background-color: #6c757d; color: black; font-weight: bold; padding: 12px 30px; margin: 10px;">Browse Tutors</a>
+        <a href="#" class="btn" style="background-color: orange; color: black; font-weight: bold; padding: 12px 30px; margin: 10px;">Get started</a>
+        <a href="{{ url_for('tutors') }}" class="btn" style="background-color: orange ;color: black; font-weight: bold; padding: 12px 30px; margin: 10px;">Browse Tutors</a>
     </div>
     
   </div>

@@ -1,12 +1,10 @@
 {% extends "base.html" %}
-
 {% block title %}Tutors{% endblock %}
-
 {% block content %}
 <style>
     body, html { background-color: #808080; }
-footer { background-color: #808080; }
- .body{
+    footer { background-color: #808080; }
+   .body{
         background-color: #808080;
         min-height: 100vh;
         width: 100vw;
@@ -18,34 +16,15 @@ footer { background-color: #808080; }
         padding: 80px 20px 100px 20px;
         color: black;
     }
- .body h2{
-        color: black;
-        font-weight: 800;
-    }
- .card{
-        border:none;
-        border-radius:12px;
-        background-color: #FFDAB3;
-        color: black;
-    }
- 
- .card-title{
-        font-weight:bold;
-        color: black;
-    }
- .card p,.card strong{
-        color: black;
-    }
- 
- .card-footer{
-        background-color: #FF6B00;
-        border-top: 1px solid black;
-    }
+   .body h2{ color: black; font-weight: 800; }
+   .card{ border:none; border-radius:12px; background-color: #FFDAB3; color: black; }
+   .card-title{ font-weight:bold; color: black; }
+   .card p,.card strong{ color: black; }
+   .card-footer{ background-color: #FF6B00; border-top: 1px solid black; }
 </style>
 
 <div class="body">
 <div class="container mt-4">
-
     <h2 class="text-center mb-4">Find a Tutor</h2>
 
     <div class="row mb-4">
@@ -85,7 +64,7 @@ footer { background-color: #808080; }
                 <div class="card-body">
                     <h5 class="card-title">
                         {% if tutor|length > 9 %}
-                            {{ tutor[8] }} {{ tutor[9] }}
+                            {{ tutor[9] }} {{ tutor[10] }}
                         {% else %}
                             Tutor #{{ tutor[0] }}
                         {% endif %}
@@ -108,11 +87,20 @@ footer { background-color: #808080; }
                         KSh {{ tutor[5] }}/hr
                     </p>
 
-                    <p>{{ tutor[6] }}</p>
-
-                    <span class="badge bg-dark">
-                        {{ tutor[7] }}
-                    </span>
+                   
+                   
+                   
+                    
+                    <p>
+                     <strong>Phone:</strong>
+                     {% if tutor[6] %}
+                          <a href="tel:{{ tutor[6] }}" class="text-dark text-decoration-none">{{ tutor[6] }}</a>
+                     {% else %}
+                       <span class="text-muted">Not provided</span>
+                    {% endif %}
+                    </p>
+                    <p>{{ tutor[7] }}</p> 
+                     <span class="badge bg-dark">{{ tutor[8] }}</span>
                 </div>
 
                 <div class="card-footer">
@@ -125,14 +113,12 @@ footer { background-color: #808080; }
                        class="btn btn-outline-dark btn-sm">
                         ⭐ Review
                     </a>
-                      {% if session.get('role') == 'student' %}
+                    {% if session.get('role') == 'student' %}
                     <a href="{{ url_for('book_tutor', tutor_id=tutor[0]) }}"
                        class="btn btn-dark btn-sm float-end">
                         Book Now
                     </a>
-                    
                      {% endif %}
-
                 </div>
             </div>
         </div>

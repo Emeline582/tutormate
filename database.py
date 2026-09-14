@@ -72,7 +72,7 @@ def get_tutors():
    
     cur.execute("""
         SELECT t.tutor_id, t.user_id, t.subject, t.qualification,
-               t.experience_years, t.hourly_rate, t.bio, t.availability,
+               t.experience_years, t.hourly_rate,t.phone, t.bio, t.availability,
                u.first_name, u.last_name
         FROM tutors t
         JOIN users u ON t.user_id = u.user_id
@@ -88,11 +88,11 @@ def get_tutor_by_user_id(user_id):
 
 
 
-def update_tutor(tutor_id, subject, qualification, experience_years, hourly_rate, bio, availability):
+def update_tutor(tutor_id, subject, qualification, experience_years, hourly_rate,phone, bio, availability):
     cur.execute("""
         UPDATE tutors SET subject=%s, qualification=%s, experience_years=%s,
-        hourly_rate=%s, bio=%s, availability=%s WHERE tutor_id=%s
-    """, (subject, qualification, experience_years, hourly_rate, bio, availability, tutor_id))
+        hourly_rate=%s, phone=%s ,bio=%s, availability=%s WHERE tutor_id=%s
+    """, (subject, qualification, experience_years, hourly_rate,phone, bio, availability, tutor_id))
     conn.commit()
 
 def delete_tutor( tutor_id):
@@ -139,7 +139,7 @@ def insert_student(user_id, education="", subjects="", availability="Available")
         conn.commit()
        
 
-def insert_tutor(user_id, subject="General", bio="", experience=0, price=0, education="", availability="Available"):
+def insert_tutor(user_id, subject="General", bio="",phone="", experience=0, price=0, education="", availability="Available"):
    
         cur.execute(
             "INSERT INTO tutors (user_id) VALUES (%s)",

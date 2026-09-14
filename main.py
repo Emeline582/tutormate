@@ -224,10 +224,11 @@ def tutors_profile_r():
         qualification = request.form['qualification']
         experience_years = request.form['experience_years']
         hourly_rate = request.form['hourly_rate']
+        phone = request.form['phone']
         bio = request.form['bio']
         availability = request.form['availability']
 
-        update_tutor(tutor_id, subject, qualification, experience_years, hourly_rate, bio, availability)
+        update_tutor(tutor_id, subject, qualification, experience_years, hourly_rate,phone, bio, availability)
         flash("Profile updated successfully", "success")
         return redirect(url_for('tutor_dashboard'))
 

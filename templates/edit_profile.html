@@ -24,15 +24,19 @@
             <label>Hourly Rate</label>
             <input type="number" step="0.01" name="hourly_rate" class="form-control" value="{{ tutor[5] }}">
         </div>
-
+        <div class="mb-3">
+            <label>phone</label>
+            <input type="tel" name="phone" class="form-control" placeholder="Phone number e.g. 0712345678" required>
+        </div>
+        
         <div class="mb-3">
             <label>Bio</label>
-            <textarea name="bio" class="form-control" rows="4">{{ tutor[6] }}</textarea>
+            <textarea name="bio" class="form-control" rows="4">{{ tutor[7] }}</textarea>
         </div>
 
         <div class="mb-3">
             <label>Availability</label>
-            <input type="text" name="availability" class="form-control" value="{{ tutor[7] }}">
+            <input type="text" name="availability" class="form-control" value="{{ tutor[8] }}">
         </div>
 
         <button type="submit" class="btn btn-primary">Save Profile</button>

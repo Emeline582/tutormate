@@ -82,8 +82,7 @@ def register():
                 print("DEBUG: Student inserted")
 
             elif role == "tutor":
-                
-                insert_tutor(user_id, "General", "", 0, 0, "", "Available")
+                insert_tutor(user_id, subject="General", education="", experience=0, price=0, bio="", availability="Available", phone="")
                 print("DEBUG: Tutor inserted")
 
             flash("User created successfully, please login!", "success")
@@ -480,7 +479,6 @@ def tutor_bookings():
 
 
 
-
 @app.route('/my_bookings')
 @login_required
 def my_bookings():
@@ -500,7 +498,7 @@ def my_bookings():
     from database import cur
     cur.execute("""
         SELECT b.booking_id, b.tutor_id, b.booking_date, b.start_time, b.end_time,
-               b.booking_status, b.meet_link,
+               b.booking_status, NULL as meet_link,
                u.first_name, u.last_name
         FROM bookings b
         JOIN tutors t ON b.tutor_id = t.tutor_id
@@ -511,6 +509,8 @@ def my_bookings():
     bookings = cur.fetchall()
 
     return render_template('my_bookings.html', bookings=bookings)
+
+
 def insert_payments_r():
 
     if request.method == 'POST':

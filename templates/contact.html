@@ -13,6 +13,31 @@
     .info{
         text-align: center;
     }
+    .info .card {
+    border: none;
+    border-radius: 12px;
+    background-color: white;
+    transition: transform 0.3s ease;
+}
+
+.info .card:hover {
+    transform: translateY(-5px);
+}
+
+.contact-icon {
+    font-size: 35px;
+    color:  #FF6B00;
+}
+
+.info h5 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.info p {
+    color: #555;
+    overflow-wrap: anywhere;
+}
 </style>
 <div class="container mt-5">
 
@@ -26,58 +51,103 @@
 
     
 
-        <div class="info">
+        
+<div class="container mt-5">
 
-            <h3>Contact Information</h3>
-           
+    <h3 class="text-center mb-4">Contact Information</h3>
 
-            <p><strong> Address</strong><br>Nairobi, Kenya</p>
+    <div class="row g-4 text-center info">
 
-            <p><strong> Phone</strong><br>+254 70 123 4567</p>
+       
+        <div class="col-md-3 col-sm-6">
+            <div class="card shadow-sm p-4 h-100">
+                <div class="mb-3">
+                    <i class="bi bi-geo-alt-fill contact-icon"></i>
+                </div>
+                <h5>Address</h5>
+                <p class="mb-0">Nairobi, Kenya</p>
+            </div>
+        </div>
 
-            <p><strong>Email</strong><br>tutormate@gmail.com</p>
-
-            <p><strong> Working Hours</strong><br> Monday - Friday<br>8:00 AM – 5:00 PM</p>
-
+        <div class="col-md-3 col-sm-6">
+            <div class="card shadow-sm p-4 h-100">
+                <div class="mb-3">
+                    <i class="bi bi-telephone-fill contact-icon"></i>
+                </div>
+                <h5>Phone</h5>
+                <p class="mb-0">+254 70 123 4567</p>
+            </div>
         </div>
 
        
-        <div class="">
-
-            <h3>Send Us a Message</h3>
-            
-
-            <form>
-
-                <div class="form">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" class="form-control"
-                        placeholder="Enter your full name">
-                
-
-                
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-control"
-                        placeholder="Enter your email">
-              
-                    <label class="form-label">Subject</label>
-                    <input type="text" class="form-control"
-                        placeholder="Subject">
-               
-
-                    <label class="form-label">Message</label>
-                    <textarea class="form-control"
-                        rows="5"
-                        placeholder="Write your message here..."></textarea>
+        <div class="col-md-3 col-sm-6">
+            <div class="card shadow-sm p-4 h-100">
+                <div class="mb-3">
+                    <i class="bi bi-envelope-fill contact-icon"></i>
                 </div>
+                <h5>Email</h5>
+                <p class="mb-0">tutormate@gmail.com</p>
+            </div>
+        </div>
 
-                <button class="btn btn-primary">
+       
+        <div class="col-md-3 col-sm-6">
+            <div class="card shadow-sm p-4 h-100">
+                <div class="mb-3">
+                    <i class="bi bi-clock-fill contact-icon"></i>
+                </div>
+                <h5>Working Hours</h5>
+                <p class="mb-0">
+                    Monday - Friday<br>
+                    8:00 AM – 5:00 PM
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+       <div class="card shadow p-4 mx-auto mt-5" style="max-width: 600px; border-radius: 15px;">
+
+    <div class="card-body">
+        <h3 class="text-center mb-4">Send Us a Message</h3>
+
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control"
+                    placeholder="Enter your full name">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control"
+                    placeholder="Enter your email">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Subject</label>
+                <input type="text" class="form-control"
+                    placeholder="Subject">
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Message</label>
+                <textarea class="form-control"
+                    rows="5"
+                    placeholder="Write your message here..."></textarea>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn"
+                   style="background-color: #FF6B00;" color: white; padding: 10px 30px;">
                     Send Message
                 </button>
+            </div>
+        </form>
+    </div>
 
-            </form>
+</div>
 
-        </div>
 
     </div>
 

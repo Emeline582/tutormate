@@ -59,6 +59,16 @@ def update_user(first_name, last_name, email, phone,user_id):
     cur.execute(" UPDATE users SET first_name=%s,  last_name=%s,  email=%s,  phone=% WHERE user_id=%s", (first_name, last_name, email, phone, user_id))
     conn.commit()
 
+def get_tutors():
+    cur.execute("""
+        SELECT t.tutor_id, t.user_id, t.subject, t.qualification,
+               t.experience_years, t.hourly_rate, t.phone, t.bio, t.availability,
+               u.first_name, u.last_name, u.email
+        FROM tutors t
+        LEFT JOIN users u ON t.user_id = u.user_id
+        ORDER BY t.tutor_id DESC
+    """)
+    return cur.fetchall()
 
 
 
@@ -68,18 +78,11 @@ def get_tutor(tutor_id):
     tutor_data = cur.fetchone()
     return tutor_data
 
-def get_tutors():
-   
-    cur.execute("""
-        SELECT t.tutor_id, t.user_id, t.subject, t.qualification,
-               t.experience_years, t.hourly_rate,t.phone, t.bio, t.availability,
-               u.first_name, u.last_name
-        FROM tutors t
-        JOIN users u ON t.user_id = u.user_id
-    """)
-    data = cur.fetchall()
-    
-    return data
+
+
+
+
+
 
 def get_tutor_by_user_id(user_id):
     cur.execute(
@@ -139,14 +142,35 @@ def insert_student(user_id, education="", subjects="", availability="Available")
         conn.commit()
        
 
-def insert_tutor(user_id, subject="General", bio="",phone="", experience=0, price=0, education="", availability="Available"):
+
+
+def insert_tutor(user_id, subject="General", bio="", phone="", experience=0, price=0, education="", availability="Available"):
    
-        cur.execute(
-            "INSERT INTO tutors (user_id) VALUES (%s)",
-            (user_id,)
-        )
-        conn.commit()
-        
+    try:
+        experience = int(experience) if str(experience).strip()!= "" else 0
+    except:
+        experience = 0
+    try:
+        price = float(price) if str(price).strip()!= "" else 0
+    except:
+        price = 0
+
+    if phone == "":
+        phone = None
+    if education == "":
+        education = None
+    if bio == "":
+        bio = None
+
+    cur.execute(
+        """
+        INSERT INTO tutors
+        (user_id, subject, qualification, experience_years, hourly_rate, bio, availability, phone)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """,
+        (user_id, subject, education, experience, price, bio, availability, phone)
+    )
+    conn.commit()
     
 
 def get_student_by_user_id(user_id):
@@ -534,7 +558,7 @@ def get_student_bookings(student_id):
             b.booking_date,
             b.start_time,
             b.end_time,
-            b.m_ode,
+            b.session_mode,
             b.booking_status            
         FROM bookings b
         JOIN tutors t ON b.tutor_id = t.tutor_id
